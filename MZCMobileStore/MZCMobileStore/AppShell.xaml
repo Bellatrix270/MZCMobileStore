@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:MZCMobileStore.Views"
+       Title="MZCMobileStore"
+       x:Class="MZCMobileStore.AppShell">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.TabBarBackgroundColor" Value="#F8F8FF"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#CCCCCC"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="#C7B4FF"/>
+                <Setter Property="Shell.BackgroundColor" Value="White"/>
+                <Setter Property="Shell.NavBarHasShadow" Value="True"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <TabBar>
+        <ShellContent Title="Конфигурации" Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Title="Корзина" Icon="icon_cart.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Title="Профиль" Icon="icon_account.png" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </TabBar>
+
+</Shell>
