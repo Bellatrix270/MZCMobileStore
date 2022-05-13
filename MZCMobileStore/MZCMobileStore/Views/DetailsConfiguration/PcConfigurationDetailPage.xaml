@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MZCMobileStore.Views.DetailsConfiguration.ItemDetailPage"
+             xmlns:view="clr-namespace:MZCMobileStore.Views.DetailsConfiguration"
+             SelectedTabColor="#AC8FFF"
+             UnselectedTabColor="#292929"
+             Shell.NavBarIsVisible="True"
+             Shell.TabBarIsVisible="False"
+             Shell.NavBarHasShadow="False"
+             Shell.ForegroundColor="Black"
+             BindingContext="{Binding PcConfigurationDetailViewModel ,Source={StaticResource Locator}}">
+    <Shell.TitleView>
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <Label Text="{Binding Title}" 
+                   TextColor="#292929" 
+                   FontSize="21" 
+                   HorizontalTextAlignment="Start" 
+                   VerticalOptions="CenterAndExpand"/>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <TabbedPage.BarBackground>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="#FFF"
+                          Offset="0.89" />
+            <GradientStop Color="#DFDFDF"
+                          Offset="0.9" />
+            <GradientStop Color="#FFF"
+                          Offset="1.0" />
+        </LinearGradientBrush>
+    </TabbedPage.BarBackground>
+
+    <TabbedPage.Children>
+        <view:DetailsConfigurationEquipment/>
+        <view:DetailsConfigurationPerformance/>
+    </TabbedPage.Children>
+</TabbedPage>

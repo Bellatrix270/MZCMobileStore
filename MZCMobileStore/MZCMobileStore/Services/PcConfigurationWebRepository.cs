@@ -20,9 +20,12 @@ namespace MZCMobileStore.Services
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
-        public Task<PcConfiguration> GetByIdAsync(int id)
+        public async Task<PcConfiguration> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            string result = await _httpClient.GetStringAsync(Url + id);
+            var pc = JsonConvert.DeserializeObject<PcConfiguration>(result);
+
+            return pc;
         }
 
         public Task<IEnumerable<PcConfiguration>> GetByNameAsync()

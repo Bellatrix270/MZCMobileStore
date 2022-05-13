@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MZCMobileStore.ViewModels;
 using MZCMobileStore.Views;
+using MZCMobileStore.Views.DetailsConfiguration;
 using Xamarin.Forms;
 
 namespace MZCMobileStore

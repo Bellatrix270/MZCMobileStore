@@ -7,11 +7,12 @@ using MZCMobileStore.Services;
 using MZCMobileStore.Services.Interfaces;
 using MZCMobileStore.ViewModels.Base;
 using MZCMobileStore.Views;
+using MZCMobileStore.Views.DetailsConfiguration;
 using Xamarin.Forms;
 
 namespace MZCMobileStore.ViewModels
 {
-    public class PcConfigItemsViewModel : BaseViewModel
+    public class PcConfigurationsViewModel : BaseViewModel
     {
         private readonly IPcConfigurationRepository _pcConfigurationRepository;
         private PcConfiguration _selectedItem;
@@ -20,7 +21,7 @@ namespace MZCMobileStore.ViewModels
         public Command LoadConfigurationsCommand { get; }
         public Command<PcConfiguration> ConfigurationTapped { get; }
 
-        public PcConfigItemsViewModel(IPcConfigurationRepository pcConfigurationRepository)
+        public PcConfigurationsViewModel(IPcConfigurationRepository pcConfigurationRepository)
         {
             Title = "Конфигурации ПК";
 
@@ -76,7 +77,7 @@ namespace MZCMobileStore.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(PcConfigItemDetailViewModel.ItemId)}={config.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(PcConfigurationDetailViewModel.PcConfigurationId)}={config.Id}");
         }
     }
 }

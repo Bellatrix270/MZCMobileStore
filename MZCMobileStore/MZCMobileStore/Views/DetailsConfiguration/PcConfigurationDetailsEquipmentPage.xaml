@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MZCMobileStore.Views.DetailsConfiguration.DetailsConfigurationEquipment"
+             Title="Комплектация">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackLayout Grid.Row="1">
+                        <Label Text="{Binding SelectedConfig.Name}"/>
+                        <Label Text="{Binding SelectedConfig.Processor}"/>
+                        <Label Text="{Binding SelectedConfig.VideoCard}"/>
+                        <Label Text="{Binding SelectedConfig.Ram}"/>
+                        <Label Text="{Binding SelectedConfig.MotherBoard}"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+            <Button Text="Добавить в корзину"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

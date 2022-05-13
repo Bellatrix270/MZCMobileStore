@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MZCMobileStore.Models
 {
@@ -30,5 +31,10 @@ namespace MZCMobileStore.Models
             }
         }
         public double Price { get; set; }
+
+        public void InitializeAdditionalImage()
+        {
+
+        }
     }
 }

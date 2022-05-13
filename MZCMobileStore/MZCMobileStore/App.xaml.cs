@@ -40,8 +40,9 @@ namespace MZCMobileStore
 
             builder.RegisterType<PcConfigurationWebRepository>().As<IPcConfigurationRepository>();
 
-            builder.RegisterType<PcConfigItemsViewModel>();
-            builder.RegisterType<PcConfigItemDetailViewModel>().AsSelf().SingleInstance();
+            builder.RegisterType<PcConfigurationsViewModel>();
+            builder.RegisterType<PcConfigurationDetailViewModel>();
+            //builder.RegisterType<PcConfigurationDetailViewModel>().AsSelf().SingleInstance();
 
             return builder.Build();
         }

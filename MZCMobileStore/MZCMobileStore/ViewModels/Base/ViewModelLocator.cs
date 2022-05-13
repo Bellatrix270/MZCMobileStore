@@ -8,6 +8,18 @@ namespace MZCMobileStore.ViewModels.Base
 {
     public class ViewModelLocator
     {
-        public PcConfigItemsViewModel PcConfigItemsViewModel => App.ContainerHost.Resolve<PcConfigItemsViewModel>();
+        public PcConfigurationsViewModel PcConfigurationsViewModel
+        {
+            get
+            {
+                PcConfigurationsViewModel viewModel = App.ContainerHost.Resolve<PcConfigurationsViewModel>();
+                viewModel.OnAppearing();
+
+                return viewModel;
+            }
+        }
+
+        public PcConfigurationDetailViewModel PcConfigurationDetailViewModel =>
+            App.ContainerHost.Resolve<PcConfigurationDetailViewModel>();
     }
 }
