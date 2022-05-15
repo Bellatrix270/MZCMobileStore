@@ -12,7 +12,8 @@
              BindingContext="{Binding PcConfigurationDetailViewModel ,Source={StaticResource Locator}}">
     <Shell.TitleView>
         <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="{Binding Title}" 
+            <Label Text="{Binding Title}"
+                   FontFamily="Roboto-Bold"
                    TextColor="#292929" 
                    FontSize="21" 
                    HorizontalTextAlignment="Start" 

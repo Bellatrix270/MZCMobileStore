@@ -15,6 +15,7 @@
                 <Setter Property="Shell.BackgroundColor" Value="White"/>
                 <Setter Property="Shell.NavBarHasShadow" Value="True"/>
             </Style>
+
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
         </ResourceDictionary>
     </Shell.Resources>

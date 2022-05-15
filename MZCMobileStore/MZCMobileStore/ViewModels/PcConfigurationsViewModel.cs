@@ -29,7 +29,7 @@ namespace MZCMobileStore.ViewModels
             PcConfigurations = new ObservableCollection<PcConfiguration>();
 
             LoadConfigurationsCommand = new Command(async () => await ExecuteLoadConfigurationsCommand());
-            ConfigurationTapped = new Command<PcConfiguration>(OnConfigurationSelected);
+            ConfigurationTapped = new Command<PcConfiguration>(OnConfigurationSelected, (sender) => !IsBusy);
         }
 
         private async Task ExecuteLoadConfigurationsCommand()
@@ -39,7 +39,10 @@ namespace MZCMobileStore.ViewModels
             try
             {
                 PcConfigurations.Clear();
+                PcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
+                PcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
                 var items = await _pcConfigurationRepository.GeAllAsync();
+                PcConfigurations.Clear();
                 foreach (var item in items)
                 {
                     PcConfigurations.Add(item);

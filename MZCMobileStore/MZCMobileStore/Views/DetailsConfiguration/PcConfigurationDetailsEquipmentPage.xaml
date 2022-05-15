@@ -1,24 +1,142 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:converters="clr-namespace:MZCMobileStore.Infrastructure.Converters"
              x:Class="MZCMobileStore.Views.DetailsConfiguration.DetailsConfigurationEquipment"
              Title="Комплектация">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+        <ResourceDictionary>
+        <converters:ByteArrayToImageSourсe x:Key="ByteArrayToImage"/>
+        <converters:PriceToCulturePrice x:Key="PriceToCulturePrice"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Frame>
-                <Grid>
+        <StackLayout Orientation="Vertical" 
+                     HorizontalOptions="Center" 
+                     VerticalOptions="CenterAndExpand" Padding="20,15">
+            <Frame BackgroundColor="White" Padding="20"
+                   CornerRadius="15" BorderColor="#F1F1F1" 
+                   HasShadow="True" WidthRequest="300">
+                <Grid Padding="-20">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="0.5*"/>
                     </Grid.RowDefinitions>
-                    <StackLayout Grid.Row="1">
-                        <Label Text="{Binding SelectedConfig.Name}"/>
-                        <Label Text="{Binding SelectedConfig.Processor}"/>
-                        <Label Text="{Binding SelectedConfig.VideoCard}"/>
-                        <Label Text="{Binding SelectedConfig.Ram}"/>
-                        <Label Text="{Binding SelectedConfig.MotherBoard}"/>
+                    <Label Grid.Row="0" Text="{Binding SelectedConfig.Name}" 
+                           FontFamily="Roboto-Medium"
+                           FontSize="25"
+                           TextColor="#292929"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           BackgroundColor="Bisque"/>
+
+                    <StackLayout Grid.Row="1"  Orientation="Horizontal" HorizontalOptions="Center">
+                        <Frame CornerRadius="9" BackgroundColor="Aqua" Padding="-30,-15">
+                            <Image Source="{Binding SelectedConfig.MainImage, 
+                               Converter={StaticResource ByteArrayToImage}}" HeightRequest="169" WidthRequest="169"/>
+                        </Frame>
                     </StackLayout>
+
+                    <BoxView Grid.Row="2" HeightRequest="1" HorizontalOptions="Fill" Color="#EEEEFF" Margin="30,0"/>
+
+                    <StackLayout Grid.Row="3" HorizontalOptions="CenterAndExpand"  Padding="20,0">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Процессор: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.Processor}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Видеокарта: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.VideoCard}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Оперативная память: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.Ram}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Материнская плата: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.MotherBoard}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Жесткий диск: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.Hdd}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="SSD: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.Ssd}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Блок питания: " FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.PowerSupplyUnit}" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+
+                    <Frame Grid.Row="4" 
+                           HasShadow="False" 
+                           VerticalOptions="Fill" 
+                           HorizontalOptions="Fill" 
+                           BackgroundColor="#EEEEFF" 
+                           Padding="0">
+                        <Label FontSize="21" HorizontalTextAlignment="Center" VerticalTextAlignment="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Цена: " FontSize="16" FontFamily="Roboto-Regular"/>
+                                        <Span Text="{Binding SelectedConfig.Price, Converter={StaticResource PriceToCulturePrice}}" 
+                                              FontSize="16" FontFamily="Roboto-Light"/>
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Frame>
                 </Grid>
             </Frame>
             <Button Text="Добавить в корзину"/>

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MZCMobileStore.ViewModels"
              xmlns:model="clr-namespace:MZCMobileStore.Models"
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
              x:Class="MZCMobileStore.Views.ItemsPage" x:Name="BrowseItemsPage"
              xmlns:converters="clr-namespace:MZCMobileStore.Infrastructure.Converters"
              BindingContext="{Binding PcConfigurationsViewModel, Source={StaticResource Locator}}"
@@ -10,7 +11,8 @@
              Shell.NavBarIsVisible="True">
     <Shell.TitleView>
         <StackLayout VerticalOptions="CenterAndExpand">
-            <Label Text="{Binding Title}" 
+            <Label Text="{Binding Title}"
+                   FontFamily="Roboto-Bold"
                    TextColor="#292929" 
                    FontSize="21" 
                    HorizontalTextAlignment="Center" 
@@ -19,6 +21,13 @@
     </Shell.TitleView>
 
     <ContentPage.Resources>
+        <Color x:Key="LoadingColor">#F0F0F0</Color>
+        <Style x:Key="LoadingFrame" TargetType="Frame">
+            <Setter Property="sk:Skeleton.BackgroundColor" Value="{StaticResource LoadingColor}"/>
+            <Setter Property="sk:Skeleton.Animation" Value="{sk:DefaultAnimation Source=Fade, Interval='600',Parameter='0.3'}"/>
+            <Setter Property="sk:Skeleton.IsBusy" 
+                    Value="{Binding IsBusy, Source={RelativeSource AncestorType={x:Type local:PcConfigurationsViewModel}}}"/>
+        </Style>
         <ResourceDictionary>
             <converters:ByteArrayToImageSourсe x:Key="ByteArrayToImage"/>
             <converters:PriceToCulturePrice x:Key="PriceToCulturePrice"/>
@@ -30,7 +39,10 @@
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView ItemsSource="{Binding PcConfigurations}" 
                         Margin="0,30,0,0"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        sk:Skeleton.IsParent="True"
+	                    sk:Skeleton.IsBusy="{Binding IsBusy, Source={RelativeSource AncestorType={x:Type local:PcConfigurationsViewModel}}}"
+	                    sk:Skeleton.Animation="{sk:DefaultAnimation Source=Fade, Interval='600',Parameter='0.3'}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="25,0,25,30">
@@ -42,7 +54,9 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Frame Grid.Column="0" BackgroundColor="#EEEEFF" CornerRadius="11"
+                                <Frame Grid.Column="0" 
+                                       Style="{StaticResource LoadingFrame}"
+                                       BackgroundColor="#EEEEFF" CornerRadius="11"
                                        Margin="15,0,0,0">
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer NumberOfTapsRequired="1"
@@ -63,12 +77,14 @@
                                     </Grid.RowDefinitions>
 
                                     <StackLayout>
-                                        <Frame BackgroundColor="Transparent"
+                                        <Frame Style="{StaticResource LoadingFrame}"
+                                               BackgroundColor="Transparent"
                                                HasShadow="False"
                                                CornerRadius="5"
                                                Padding="0"
                                                HorizontalOptions="Start">
                                             <Label Text="{Binding Name}"
+                                                   FontFamily="Roboto-Medium"
                                                    TextColor="#292929"
                                                    FontSize="16" />
                                         </Frame>
@@ -77,24 +93,30 @@
                                                  Margin="0, 7" />
                                     </StackLayout>
 
-                                    <Frame Grid.Row="1"  BackgroundColor="Transparent"
+                                    <Frame Grid.Row="1" 
+                                           Style="{StaticResource LoadingFrame}"
+                                           BackgroundColor="Transparent"
                                            HasShadow="False"
                                            CornerRadius="5"
                                            Padding="0"
                                            HorizontalOptions="Start">
                                         <Label Text="{Binding CardDescription}"
+                                               FontFamily="Roboto-Regular"
                                                TextColor="#696969" FontSize="12"
                                                HorizontalOptions="Fill"
                                                VerticalOptions="Fill" />
                                     </Frame>
 
-                                    <Frame Grid.Row="2"  BackgroundColor="Transparent"
+                                    <Frame Grid.Row="2" 
+                                           Style="{StaticResource LoadingFrame}"
+                                           BackgroundColor="Transparent"
                                            HasShadow="False"
                                            CornerRadius="5"
                                            Padding="0"
                                            HorizontalOptions="Fill">
                                         <Grid>
                                             <Label Text="{Binding Price, Converter={StaticResource PriceToCulturePrice}, ConverterParameter=rub}"
+                                                   FontFamily="Roboto-Medium"
                                                    TextColor="#AC8FFF"
                                                    HorizontalOptions="Start" />
                                             <Button Text="В корзину" CornerRadius="9" 

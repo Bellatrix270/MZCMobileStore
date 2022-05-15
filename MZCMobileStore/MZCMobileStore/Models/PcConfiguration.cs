@@ -13,6 +13,9 @@ namespace MZCMobileStore.Models
         public string VideoCard { get; set; }
         public string Ram { get; set; }
         public string MotherBoard { get; set; }
+        public string Hdd { get; set; }
+        public string Ssd { get; set; }
+        public string PowerSupplyUnit { get; set; }
         public byte[] MainImage { get; set; }
         public string[] AdditionalImageFtpPaths { get; set; }
         public string Description { get; set; }
