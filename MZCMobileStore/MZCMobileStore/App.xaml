@@ -1,12 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
              xmlns:vm="clr-namespace:MZCMobileStore.ViewModels.Base"
              x:Class="MZCMobileStore.App">
 
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#AC8FFF</Color>
+            <Color x:Key="LoadingColor">#F0F0F0</Color>
+
+            <Style x:Key="LoadingFrameBase" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="HasShadow" Value="False"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="sk:Skeleton.BackgroundColor" Value="{StaticResource LoadingColor}"/>
+                <Setter Property="sk:Skeleton.Animation" Value="{sk:DefaultAnimation Source=Fade, Interval='600',Parameter='0.3'}"/>
+            </Style>
+            
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">

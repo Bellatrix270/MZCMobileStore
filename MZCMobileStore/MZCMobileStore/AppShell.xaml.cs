@@ -13,6 +13,7 @@ namespace MZCMobileStore
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
         }
 
     }

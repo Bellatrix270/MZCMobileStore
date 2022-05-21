@@ -15,7 +15,6 @@ namespace MZCMobileStore.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
         }
     }
 }

@@ -11,9 +11,10 @@
   </style>
 
   <style name="MainTheme.Base" parent="Theme.AppCompat.Light">
-    <item name="colorPrimary">#000000</item>
+    <item name="colorPrimary">#AC8FFF</item>
     <item name="colorPrimaryDark">#FFFFFF</item>
-    <item name="colorAccent">#000000</item>
+    <item name="colorAccent">#AC8FFF</item>
+    <item name="colorControlNormal">#FF73B72F</item>
     <item name="android:windowLightStatusBar">true</item>
   </style>
 

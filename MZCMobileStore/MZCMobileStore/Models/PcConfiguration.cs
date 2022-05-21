@@ -17,7 +17,7 @@ namespace MZCMobileStore.Models
         public string Ssd { get; set; }
         public string PowerSupplyUnit { get; set; }
         public byte[] MainImage { get; set; }
-        public string[] AdditionalImageFtpPaths { get; set; }
+        public byte[][] AdditionalImages { get; set; }
         public string Description { get; set; }
         public string ShortDescription { get; set; }
 
