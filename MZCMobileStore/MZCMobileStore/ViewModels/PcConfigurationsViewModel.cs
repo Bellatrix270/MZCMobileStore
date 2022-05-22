@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -17,8 +18,9 @@ namespace MZCMobileStore.ViewModels
     {
         private readonly IPcConfigurationRepository _pcConfigurationRepository;
         private PcConfiguration _selectedItem;
-        private ObservableCollection<PcConfiguration> _pcConfigurations;
+        private List<PcConfiguration> _pcConfigurations;
         private bool _isBusy;
+        private string _searchBarQuery;
 
         public override bool IsBusy
         {
@@ -30,10 +32,14 @@ namespace MZCMobileStore.ViewModels
             }
         }
 
-        public ObservableCollection<PcConfiguration> PcConfigurations
+        public IEnumerable<PcConfiguration> PcConfigurations
         {
-            get => _pcConfigurations;
-            set => Set(ref _pcConfigurations, value);
+            get
+            {
+                if (string.IsNullOrEmpty(_searchBarQuery))
+                    return _pcConfigurations.Take(_pcConfigurations.Count);
+                return _pcConfigurations.Where(config => config.Name == _searchBarQuery);
+            }
         }
 
         public Command LoadConfigurationsCommand { get; }
@@ -46,7 +52,7 @@ namespace MZCMobileStore.ViewModels
             Title = "Конфигурации ПК";
 
             _pcConfigurationRepository = pcConfigurationRepository;
-            PcConfigurations = new ObservableCollection<PcConfiguration>();
+            _pcConfigurations = new List<PcConfiguration>();
 
             LoadConfigurationsCommand = new Command(async () => await ExecuteLoadConfigurationsCommand());
             AddToCardCommand = new Command(async () => await Shell.Current.GoToAsync($"//RegistrationPage"));
@@ -60,14 +66,14 @@ namespace MZCMobileStore.ViewModels
 
             try
             {
-                PcConfigurations.Clear();
-                PcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
-                PcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
+                _pcConfigurations.Clear();
+                _pcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
+                _pcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
                 var items = await _pcConfigurationRepository.GeAllAsync();
-                PcConfigurations.Clear();
+                _pcConfigurations.Clear();
                 foreach (var item in items)
                 {
-                    PcConfigurations.Add(item);
+                    _pcConfigurations.Add(item);
                 }
             }
             catch (Exception ex)
@@ -77,6 +83,7 @@ namespace MZCMobileStore.ViewModels
             finally
             {
                 IsBusy = false;
+                OnPropertyChanged(nameof(PcConfigurations));
             }
         }
 
@@ -107,8 +114,8 @@ namespace MZCMobileStore.ViewModels
 
         private void OnExecuteSearchPcConfigCommand(string parameter)
         {
-            //TODO: Edit.
-            PcConfigurations = new ObservableCollection<PcConfiguration>(PcConfigurations.Where(config => config.Name == parameter));
+            _searchBarQuery = parameter;
+            OnPropertyChanged(nameof(PcConfigurations));
         }
     }
 }

@@ -8,6 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#AC8FFF</Color>
+            <Color x:Key="Disabled">#EEEEFF</Color>
             <Color x:Key="TextColor">#292929</Color>
             <Color x:Key="LoadingColor">#F0F0F0</Color>
 
@@ -32,7 +33,7 @@
                             </VisualState>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#332196F3" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Disabled}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

@@ -10,41 +10,49 @@ namespace MZCMobileStore.ViewModels
 {
     public class RegistrationViewModel : BaseViewModel
     {
+        #region Fields
+
         private string _userLogin;
+        private string _userName;
+        private string _userNumberPhone;
+        private string _userPassword;
+        private string _confirmUserPassword;
+
+        #endregion
+
+        #region Properties
 
         public string UserName
         {
-            get; 
-            set;
+            get => _userName;
+            set => Set(ref _userName, value);
         }
 
         public string UserLogin
         {
             get => _userLogin;
-            set
-            {
-                _userLogin = value;
-                ContinueRegisterCommand?.ChangeCanExecute();
-            }
+            set => Set(ref _userLogin, value);
         }
 
         public string UserNumberPhone
         {
-            get; 
-            set;
+            get => _userNumberPhone;
+            set => Set(ref _userNumberPhone, value);
         }
 
         public string UserPassword
         {
-            get; 
-            set;
+            get => _userPassword;
+            set => Set(ref _userPassword, value);
         }
 
         public string ConfirmUserPassword
         {
-            get; 
-            set;
+            get => _confirmUserPassword;
+            set => Set(ref _confirmUserPassword, value);
         }
+
+        #endregion
 
         public Command ContinueRegisterCommand { get; }
         public Command ContinueWithoutRegisterCommand { get; }
@@ -66,17 +74,22 @@ namespace MZCMobileStore.ViewModels
             ContinueRegisterCommand = new Command(OnExecuteContinueRegisterCommand, CanExecuteContinueRegisterCommand);
         }
 
+        protected override bool Set<T>(ref T field, T value, string propertyName = null)
+        {
+            bool isChange =  base.Set(ref field, value, propertyName);
+            ContinueRegisterCommand?.ChangeCanExecute();
+            return isChange;
+        }
+
         private async void OnExecuteContinueRegisterCommand(object parameter)
         {
             await User.Instance.RegistrationAsync();
         }
 
         private bool CanExecuteContinueRegisterCommand(object parameter)
-        {
-            return UserName.Length >= 2 &&
+            => UserName.Length >= 2 &&
                    UserNumberPhone.Length > 7 &&
-                   UserPassword == ConfirmUserPassword &&
+                   (UserPassword == ConfirmUserPassword && UserPassword.Length >= 5) &&
                    User.CheckLoginToUnique(UserLogin).Result;
-        }
     }
 }
