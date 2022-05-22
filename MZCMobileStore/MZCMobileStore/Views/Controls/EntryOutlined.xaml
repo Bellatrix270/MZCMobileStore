@@ -10,7 +10,7 @@
                 <Frame x:Name="EntryFrame" 
                        HasShadow="False"
                        BorderColor="{Binding BorderColor, Source={x:Reference this}}"
-                       CornerRadius="5"
+                       CornerRadius="7"
                        Padding="5,0"
                        Margin="0"/>
 

@@ -14,7 +14,13 @@ namespace MZCMobileStore
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-        }
 
+            if (!Application.Current.Properties.TryGetValue("isFirstOpen", out _))
+            {
+                CurrentItem.CurrentItem = ContentRegistrationPage;
+                Application.Current.Properties.Add("isFirstOpen", "false");
+                Application.Current.SavePropertiesAsync();
+            }
+        }
     }
 }

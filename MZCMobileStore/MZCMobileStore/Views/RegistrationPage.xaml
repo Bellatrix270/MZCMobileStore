@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MZCMobileStore.ViewModels;assembly=MZCMobileStore"
+             xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
+             xmlns:behaviors="clr-namespace:MZCMobileStore.Views.Behaviors;assembly=MZCMobileStore"
+             x:Class="MZCMobileStore.Views.RegistrationPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <ContentPage.BindingContext>
+        <vm:RegistrationViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="{x:Type controls:EntryOutlined}">
+            <Setter Property="PlaceholderBackgroundColor" Value="White"/>
+            <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+            <Setter Property="PlaceholderColor" Value="Gray"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Padding="30,0" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="Регистрация" HorizontalTextAlignment="Center" FontSize="21" 
+                   FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"
+                   />
+            <StackLayout Grid.Row="1" Spacing="20" VerticalOptions="CenterAndExpand">
+                <controls:EntryOutlined Placeholder="Ваше имя"
+                                        Text="{Binding UserName, Mode=OneWayToSource}"
+                                        FocusedBorderColor="#EEEEFF"
+                                        UnFocusedBorderColor="#AC8FFF"/>
+                <controls:EntryOutlined Placeholder="Логин"
+                                        Text="{Binding UserLogin, Mode=OneWayToSource}"
+                                        FocusedBorderColor="#EEEEFF"
+                                        UnFocusedBorderColor="#AC8FFF"/>
+                <controls:EntryOutlined Placeholder="Номер телефона"
+                                        Text="{Binding UserNumberPhone, Mode=OneWayToSource}"
+                                        FocusedBorderColor="#EEEEFF"
+                                        UnFocusedBorderColor="#AC8FFF">
+                    <controls:EntryOutlined.Behaviors>
+                        <behaviors:NumericValidationBehavior MaxCountNumbers="11"/>
+                    </controls:EntryOutlined.Behaviors>
+                </controls:EntryOutlined>
+                <controls:EntryOutlined Placeholder="Пароль"
+                                        Text="{Binding UserPassword, Mode=OneWayToSource}"
+                                        IsPassword="True"
+                                        FocusedBorderColor="#EEEEFF"
+                                        UnFocusedBorderColor="#AC8FFF"/>
+                <controls:EntryOutlined Placeholder="Подтверждение пароля"
+                                        Text="{Binding ConfirmUserPassword, Mode=OneWayToSource}"
+                                        IsPassword="True"
+                                        FocusedBorderColor="#EEEEFF"
+                                        UnFocusedBorderColor="#AC8FFF"/>
+            </StackLayout>
+            <StackLayout Grid.Row="2" VerticalOptions="Center">
+                <Button HeightRequest="50" Text="Продолжить" CornerRadius="15"
+                        Command="{Binding ContinueRegisterCommand}" />
+                <Button HeightRequest="50" Text="Продолжить без регистрации" TextColor="{StaticResource TextColor}" FontSize="13" 
+                        FontFamily="Roboto-Regular"
+                        BorderColor="#AC8FFF" BorderWidth="2"
+                        BackgroundColor="White"  
+                        CornerRadius="15"
+                        Command="{Binding ContinueWithoutRegisterCommand}" 
+                        Margin="0,10,0,0"/>
+                <Label Text="уже есть аккаунт?" HorizontalTextAlignment="Center" FontFamily="Roboto-Light"
+                       Margin="0,10,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding GoToLoginPageCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

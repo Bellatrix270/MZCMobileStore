@@ -26,4 +26,7 @@
         <ShellContent Title="Профиль" Icon="icon_account.png" ContentTemplate="{DataTemplate local:AboutPage}" />
     </TabBar>
 
+    <TabBar>
+        <ShellContent x:Name="ContentRegistrationPage" Route="RegistrationPage" ContentTemplate="{DataTemplate local:RegistrationPage}" />
+    </TabBar>
 </Shell>

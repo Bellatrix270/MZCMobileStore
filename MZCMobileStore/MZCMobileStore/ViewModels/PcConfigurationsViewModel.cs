@@ -31,7 +31,7 @@ namespace MZCMobileStore.ViewModels
             PcConfigurations = new ObservableCollection<PcConfiguration>();
 
             LoadConfigurationsCommand = new Command(async () => await ExecuteLoadConfigurationsCommand());
-            AddToCardCommand = new Command(async () => await Shell.Current.GoToAsync($"{nameof(LoginPage)}"));
+            AddToCardCommand = new Command(async () => await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}"));
             ConfigurationTapped = new Command<PcConfiguration>(OnConfigurationSelected, (sender) => !IsBusy);
         }
 

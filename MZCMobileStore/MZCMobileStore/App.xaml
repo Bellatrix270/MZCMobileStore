@@ -8,6 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#AC8FFF</Color>
+            <Color x:Key="TextColor">#292929</Color>
             <Color x:Key="LoadingColor">#F0F0F0</Color>
 
             <Style x:Key="LoadingFrameBase" TargetType="Frame">
