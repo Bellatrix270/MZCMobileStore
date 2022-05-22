@@ -11,13 +11,13 @@ namespace MZCMobileStore.ViewModels.Base
         private bool _isBusy = false;
         private string _title = string.Empty;
 
-        public bool IsBusy
+        public virtual bool IsBusy
         {
             get => _isBusy;
             set => Set(ref _isBusy, value);
         }
 
-        public string Title
+        public virtual string Title
         {
             get => _title;
             set => Set(ref _title, value);

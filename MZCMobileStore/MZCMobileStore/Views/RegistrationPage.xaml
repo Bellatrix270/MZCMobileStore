@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
              xmlns:behaviors="clr-namespace:MZCMobileStore.Views.Behaviors;assembly=MZCMobileStore"
              x:Class="MZCMobileStore.Views.RegistrationPage"
+             Shell.PresentationMode="ModalNotAnimated"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
     <ContentPage.BindingContext>
@@ -24,7 +25,7 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="Регистрация" HorizontalTextAlignment="Center" FontSize="21" 
+            <Label Grid.Row="0" Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="21" 
                    FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"
                    />
             <StackLayout Grid.Row="1" Spacing="20" VerticalOptions="CenterAndExpand">

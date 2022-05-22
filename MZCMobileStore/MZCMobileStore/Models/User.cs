@@ -14,7 +14,7 @@ namespace MZCMobileStore.Models
         private static readonly Lazy<User> _instance = new Lazy<User>(() => new User());
 
         public static User Instance => _instance.Value;
-        private readonly RestClient _restClient;
+        private static readonly RestClient _restClient = new RestClient("http://192.168.0.107:3000/api/Users");
 
         #region Property
 
@@ -35,7 +35,7 @@ namespace MZCMobileStore.Models
 
         private User()
         {
-            _restClient = new RestClient("http://192.168.0.107:3000/api/Users");
+            //_restClient = new RestClient("http://192.168.0.107:3000/api/Users");
             IsAuth = false;
         }
 
@@ -52,6 +52,14 @@ namespace MZCMobileStore.Models
         public async Task RegistrationAsync()
         {
 
+        }
+
+        public static async Task<bool> CheckLoginToUnique(string login)
+        {
+            var request = new RestRequest("IsUnique");
+            request.AddParameter("login", login);
+            var response = await _restClient.ExecuteAsync(request).ConfigureAwait(false);
+            return Convert.ToBoolean(response.Content);
         }
     }
 }

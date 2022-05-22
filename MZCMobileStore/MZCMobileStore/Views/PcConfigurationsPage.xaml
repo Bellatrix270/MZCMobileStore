@@ -4,21 +4,22 @@
              xmlns:local="clr-namespace:MZCMobileStore.ViewModels"
              xmlns:model="clr-namespace:MZCMobileStore.Models"
              xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+             xmlns:sh="clr-namespace:MZCMobileStore.Views.SearchHandlers;assembly=MZCMobileStore"
              x:Class="MZCMobileStore.Views.ItemsPage" x:Name="BrowseItemsPage"
              xmlns:converters="clr-namespace:MZCMobileStore.Infrastructure.Converters"
              BindingContext="{Binding PcConfigurationsViewModel, Source={StaticResource Locator}}"
              Title="{Binding Title}"
              Shell.NavBarIsVisible="True">
-    <Shell.TitleView>
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <Label Text="{Binding Title}"
-                   FontFamily="Roboto-Medium"
-                   TextColor="#292929" 
-                   FontSize="21" 
-                   HorizontalTextAlignment="Center" 
-                   VerticalOptions="CenterAndExpand"/>
-        </StackLayout>
-    </Shell.TitleView>
+    <Shell.SearchHandler>
+        <SearchHandler x:Name="SearchBar"
+                       Placeholder="Search..."
+                       TextColor="Black" 
+                       FontFamily="Roboto-Light"
+                       BackgroundColor="White" 
+                       CancelButtonColor="Black"
+                       Command="{Binding SearchPcConfigCommand}"
+                       CommandParameter="{Binding Query, Source={x:Reference SearchBar}}"/>
+    </Shell.SearchHandler>
 
     <ContentPage.Resources>
         <Style x:Key="LoadingFrame" TargetType="Frame" BasedOn="{StaticResource LoadingFrameBase}">

@@ -16,5 +16,10 @@ namespace MZCMobileStore.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
     }
 }
