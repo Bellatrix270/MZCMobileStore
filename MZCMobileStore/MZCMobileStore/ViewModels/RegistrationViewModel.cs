@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Acr.UserDialogs;
 using MZCMobileStore.Infrastructure;
 using MZCMobileStore.Models;
 using MZCMobileStore.ViewModels.Base;
@@ -95,7 +96,12 @@ namespace MZCMobileStore.ViewModels
         private async void OnExecuteContinueRegisterCommand(object parameter)
         {
             //TODO: Check Login to Unique here.
-            await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin);
+            bool isUnique = await User.CheckLoginToUnique(UserLogin).ConfigureAwait(false);
+
+            if (isUnique)
+                await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin);
+            else
+                UserDialogs.Instance.Alert("Nick name already exist");
         }
 
         private bool CanExecuteContinueRegisterCommand(object parameter)

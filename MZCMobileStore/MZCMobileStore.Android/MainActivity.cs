@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -12,6 +12,9 @@ namespace MZCMobileStore.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            //if (UserDialogs.Instance == null)
+            UserDialogs.Init(this);
+
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
