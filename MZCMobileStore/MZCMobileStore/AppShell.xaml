@@ -22,8 +22,8 @@
 
     <TabBar>
         <ShellContent Title="Конфигурации" Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-        <ShellContent Title="Корзина" Icon="icon_cart.png" Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-        <ShellContent Title="Профиль" Icon="icon_account.png" ContentTemplate="{DataTemplate local:AboutPage}" />
+        <ShellContent Title="Корзина" Icon="icon_cart.png" Route="UserCartPage" ContentTemplate="{DataTemplate local:UserCartPage}" />
+        <ShellContent Title="Профиль" Icon="icon_account.png" Route="UserProfilePage" ContentTemplate="{DataTemplate local:UserProfilePage}" />
     </TabBar>
 
     <TabBar>

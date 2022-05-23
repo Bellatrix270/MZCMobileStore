@@ -12,7 +12,7 @@
                        BorderColor="{Binding BorderColor, Source={x:Reference this}}"
                        CornerRadius="7"
                        Padding="5,0"
-                       Margin="0"/>
+                       Margin="0,0,0,1"/>
 
                 <Label x:Name="PlaceholderLabel"
                        BackgroundColor="{Binding PlaceholderBackgroundColor, Source={x:Reference this}}"
@@ -31,6 +31,18 @@
                                           Focused="InputEntry_OnFocused"
                                           Unfocused="InputEntry_OnUnfocused"
                                           TextChanged="InputEntry_OnTextChanged"/>
+
+                <BoxView x:Name="LevelPasswordSecurityBackground" Color="#F1F1F1" CornerRadius="1" 
+                         HeightRequest="2" WidthRequest="{Binding Path=Width, Source={x:Reference EntryFrame}}"
+                         VerticalOptions="End"
+                         HorizontalOptions="StartAndExpand"
+                         IsVisible="{Binding IsVisiblePasswordSecurityLevel, Source={x:Reference this}}"
+                         Margin="5,0"/>
+                <BoxView x:Name="LevelPasswordSecurity" Color="#FFE3DD" CornerRadius="1" 
+                         HeightRequest="2"
+                         VerticalOptions="End" HorizontalOptions="Start"
+                         IsVisible="{Binding IsVisiblePasswordSecurityLevel, Source={x:Reference this}}"
+                         Margin="5,0"/>
             </Grid>
         </StackLayout>
     </ContentView.Content>

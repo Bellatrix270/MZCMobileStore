@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
@@ -41,7 +42,6 @@ namespace MZCMobileStore.Models
 
         public async Task AuthorizationAsync(string password, string login)
         {
-            password = "toP21MobiLLEst93Ore";
             RestRequest request = new RestRequest("auth");
             request.AddParameter("password", password);
             request.AddParameter("login", login);
@@ -49,9 +49,14 @@ namespace MZCMobileStore.Models
             var content = await _restClient.GetJsonAsync<User>(response.Content).ConfigureAwait(false);
         }
 
-        public async Task RegistrationAsync()
+        public async Task RegistrationAsync(string name, string phoneNumber, string password, string login)
         {
+            var request = new RestRequest("register", Method.Post);
+            request.AddBody(new { FirstName = name, PhoneNumber = phoneNumber, Password = password, Login = login });
+            var response = await _restClient.ExecutePostAsync(request).ConfigureAwait(false);
 
+            if (response.StatusCode == HttpStatusCode.OK)
+                IsAuth = true;
         }
 
         public static async Task<bool> CheckLoginToUnique(string login)

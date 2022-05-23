@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MZCMobileStore.Infrastructure;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -86,6 +86,28 @@ namespace MZCMobileStore.Views.Controls
         }
         #endregion
 
+        #region PassworldLevelActionProperty
+        public static readonly BindableProperty PasswordLevelActionProperty =
+            BindableProperty.Create(nameof(PasswordLevelAction), typeof(Func<string, LevelsPasswordSecurityEnum>), typeof(EntryOutlined), default);
+
+        public Func<string, LevelsPasswordSecurityEnum> PasswordLevelAction
+        {
+            get => (Func<string, LevelsPasswordSecurityEnum>)GetValue(PasswordLevelActionProperty);
+            set => SetValue(PasswordLevelActionProperty, value);
+        }
+        #endregion
+
+        #region IsVisiblePasswordSecurityLevelProperty
+        public static readonly BindableProperty IsVisiblePasswordSecurityLevelProperty =
+            BindableProperty.Create(nameof(IsVisiblePasswordSecurityLevel), typeof(bool), typeof(EntryOutlined), false);
+
+        public bool IsVisiblePasswordSecurityLevel
+        {
+            get => (bool)GetValue(IsVisiblePasswordSecurityLevelProperty);
+            set => SetValue(IsVisiblePasswordSecurityLevelProperty, value);
+        }
+        #endregion
+
         private async void InputEntry_OnFocused(object sender, FocusEventArgs e)
         {
             BorderColor = FocusedBorderColor;
@@ -129,8 +151,40 @@ namespace MZCMobileStore.Views.Controls
         }
 
         public event EventHandler<TextChangedEventArgs> TextChanged; 
-        private void InputEntry_OnTextChanged(object sender, TextChangedEventArgs e)
+        private async void InputEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            if (IsVisiblePasswordSecurityLevel)
+            {
+                LevelsPasswordSecurityEnum? isValidate = PasswordLevelAction?.Invoke((sender as BorderlessEntry).Text);
+
+                switch (isValidate)
+                {
+                    case LevelsPasswordSecurityEnum.Indefinite:
+                        LevelPasswordSecurity.WidthRequest = LevelPasswordSecurityBackground.Width / 4;
+                        LevelPasswordSecurity.Color = Color.FromRgb(255, 227, 221);
+                        //await LevelPasswordSecurity.ScaleXTo(2);
+                        break;
+
+                    case LevelsPasswordSecurityEnum.Low:
+                        LevelPasswordSecurity.WidthRequest = LevelPasswordSecurityBackground.Width / 3; ;
+                        LevelPasswordSecurity.Color = Color.FromRgb(255, 227, 221);
+                        //await LevelPasswordSecurity.ScaleXTo(3);
+                        break;
+
+                    case LevelsPasswordSecurityEnum.Medium:
+                        LevelPasswordSecurity.WidthRequest = LevelPasswordSecurityBackground.Width / 2; ;
+                        LevelPasswordSecurity.Color = Color.FromRgb(255, 241, 221);
+                        //await LevelPasswordSecurity.ScaleXTo(4);
+                        break;
+
+                    case LevelsPasswordSecurityEnum.High:
+                        LevelPasswordSecurity.WidthRequest = LevelPasswordSecurityBackground.Width / 1; ;
+                        LevelPasswordSecurity.Color = Color.FromRgb(222, 255, 221);
+                        //await LevelPasswordSecurity.ScaleXTo(5);
+                        break;
+                }
+            }
+
             TextChanged?.Invoke(this,e);
         }
     }

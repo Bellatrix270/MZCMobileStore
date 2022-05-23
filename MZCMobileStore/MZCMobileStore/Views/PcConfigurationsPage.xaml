@@ -12,11 +12,11 @@
              Shell.NavBarIsVisible="True">
     <Shell.SearchHandler>
         <SearchHandler x:Name="SearchBar"
-                       Placeholder="Search..."
-                       TextColor="Black" 
+                       Placeholder="Поиск конфигурации..."
+                       TextColor="{StaticResource TextColor}" 
                        FontFamily="Roboto-Light"
-                       BackgroundColor="White" 
-                       CancelButtonColor="Black"
+                       BackgroundColor="White"
+                       CancelButtonColor="{StaticResource TextColor}"
                        Command="{Binding SearchPcConfigCommand}"
                        CommandParameter="{Binding Query, Source={x:Reference SearchBar}}"/>
     </Shell.SearchHandler>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
+using MZCMobileStore.Infrastructure;
 using MZCMobileStore.Models;
 using MZCMobileStore.ViewModels.Base;
 using MZCMobileStore.Views;
@@ -58,20 +60,29 @@ namespace MZCMobileStore.ViewModels
         public Command ContinueWithoutRegisterCommand { get; }
         public Command GoToLoginPageCommand { get; }
 
+        public Command<string> ValidatePasswordCommand { get; }
+        public Func<string, LevelsPasswordSecurityEnum> ValidatePasswordPredicate { get; }
+
+        #region Regex
+
+        private readonly Regex _hasNumber = new Regex(@"[0-9]+");
+        private readonly Regex _hasUpperChar = new Regex(@"[A-Z]+");
+        private readonly Regex _hasMiniMaxChars = new Regex(@".{6,21}");
+        private readonly Regex _hasLowerChar = new Regex(@"[a-z]+");
+        private readonly Regex _hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+
+        #endregion
+
         public RegistrationViewModel()
         {
             Title = "Регистрация";
-
-            UserName = string.Empty;
-            UserLogin = string.Empty;
-            UserNumberPhone = string.Empty;
-            UserPassword = string.Empty;
-            ConfirmUserPassword = string.Empty;
 
             ContinueWithoutRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//AboutPage"));
             GoToLoginPageCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(LoginPage)}"));
 
             ContinueRegisterCommand = new Command(OnExecuteContinueRegisterCommand, CanExecuteContinueRegisterCommand);
+
+            ValidatePasswordPredicate = PasswordValidate;
         }
 
         protected override bool Set<T>(ref T field, T value, string propertyName = null)
@@ -83,13 +94,35 @@ namespace MZCMobileStore.ViewModels
 
         private async void OnExecuteContinueRegisterCommand(object parameter)
         {
-            await User.Instance.RegistrationAsync();
+            //TODO: Check Login to Unique here.
+            await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin);
         }
 
         private bool CanExecuteContinueRegisterCommand(object parameter)
             => UserName.Length >= 2 &&
-                   UserNumberPhone.Length > 7 &&
-                   (UserPassword == ConfirmUserPassword && UserPassword.Length >= 5) &&
-                   User.CheckLoginToUnique(UserLogin).Result;
+               UserNumberPhone.Length > 7 &&
+               PasswordValidate(UserPassword) >= LevelsPasswordSecurityEnum.Medium &&
+               UserPassword == ConfirmUserPassword;
+
+        public LevelsPasswordSecurityEnum PasswordValidate(string password)
+        {
+            LevelsPasswordSecurityEnum passwordLevelsSecurity = LevelsPasswordSecurityEnum.Indefinite;
+
+            if (!_hasMiniMaxChars.IsMatch(password))
+                passwordLevelsSecurity = LevelsPasswordSecurityEnum.Low;
+
+            if (_hasNumber.IsMatch(password) && _hasLowerChar.IsMatch(password) &&
+                _hasUpperChar.IsMatch(password))
+            {
+                passwordLevelsSecurity = LevelsPasswordSecurityEnum.Medium;
+
+                if (_hasSymbols.IsMatch(password))
+                    passwordLevelsSecurity = LevelsPasswordSecurityEnum.High;
+            }
+            else
+                passwordLevelsSecurity = LevelsPasswordSecurityEnum.Low;
+
+            return passwordLevelsSecurity;
+        }
     }
 }

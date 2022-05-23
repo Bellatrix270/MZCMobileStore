@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MZCMobileStore.ViewModels;assembly=MZCMobileStore"
+             xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
+             xmlns:behaviors="clr-namespace:MZCMobileStore.Views.Behaviors;assembly=MZCMobileStore"
+             x:Class="MZCMobileStore.Views.ConfirmPhoneNumberPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding Title}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   FontSize="21" FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"/>
+
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <controls:EntryOutlined Placeholder="Код подтверждения"
+                                        PlaceholderBackgroundColor="White"
+                                        Text="{Binding UserLogin, Mode=OneWayToSource}"
+                                        BorderColor="#AC8FFF"
+                                        FocusedBorderColor="#EEEEFF"
+                                        UnFocusedBorderColor="#AC8FFF"
+                                        PlaceholderColor="Gray">
+                    <controls:EntryOutlined.Behaviors>
+                        <behaviors:NumericValidationBehavior MaxCountNumbers="4" />
+                    </controls:EntryOutlined.Behaviors>
+                </controls:EntryOutlined>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

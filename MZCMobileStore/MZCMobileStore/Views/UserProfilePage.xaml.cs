@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 
 namespace MZCMobileStore.Views
 {
-    public partial class AboutPage : ContentPage
+    public partial class UserProfilePage : ContentPage
     {
-        public AboutPage()
+        public UserProfilePage()
         {
             InitializeComponent();
         }

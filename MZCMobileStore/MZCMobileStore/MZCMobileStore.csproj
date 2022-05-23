@@ -36,13 +36,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\DetailsConfiguration\PcConfigurationDetailsPerformancePage.xaml.cs">
+    <Compile Update="Views\UserCartPage.xaml.cs">
+      <DependentUpon>UserCartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\UserProfilePage.xaml.cs">
+      <DependentUpon>UserProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DetailsConfigurationPages\PcConfigurationDetailsPerformancePage.xaml.cs">
       <DependentUpon>PcConfigurationDetailsPerformancePage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\DetailsConfiguration\PcConfigurationDetailsEquipmentPage.xaml.cs">
+    <Compile Update="Views\DetailsConfigurationPages\PcConfigurationDetailsEquipmentPage.xaml.cs">
       <DependentUpon>PcConfigurationDetailsEquipmentPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\DetailsConfiguration\PcConfigurationDetailPage.xaml.cs">
+    <Compile Update="Views\DetailsConfigurationPages\PcConfigurationDetailPage.xaml.cs">
       <DependentUpon>PcConfigurationDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\PcConfigurationsPage.xaml.cs">
@@ -51,16 +57,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\ConfirmPhoneNumberPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Controls\EntryOutlined.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DetailsConfiguration\PcConfigurationDetailsEquipmentPage.xaml">
+    <EmbeddedResource Update="Views\DetailsConfigurationPages\PcConfigurationDetailsEquipmentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DetailsConfiguration\PcConfigurationDetailsPerformancePage.xaml">
+    <EmbeddedResource Update="Views\DetailsConfigurationPages\PcConfigurationDetailsPerformancePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegistrationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UserCartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

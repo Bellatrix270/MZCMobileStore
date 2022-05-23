@@ -24,7 +24,7 @@ namespace MZCMobileStore.ViewModels
         {
             await User.Instance.AuthorizationAsync(UserPassword, UserLogin);
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(UserProfilePage)}");
         }
     }
 }

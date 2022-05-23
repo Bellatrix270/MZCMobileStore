@@ -25,9 +25,8 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="21" 
-                   FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"
-                   />
+            <Label Grid.Row="0" Text="{Binding Title}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   FontSize="21" FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"/>
             <StackLayout Grid.Row="1" Spacing="20" VerticalOptions="CenterAndExpand">
                 <controls:EntryOutlined Placeholder="Ваше имя"
                                         Text="{Binding UserName, Mode=OneWayToSource}"
@@ -49,7 +48,9 @@
                                         Text="{Binding UserPassword, Mode=OneWayToSource}"
                                         IsPassword="True"
                                         FocusedBorderColor="#EEEEFF"
-                                        UnFocusedBorderColor="#AC8FFF"/>
+                                        UnFocusedBorderColor="#AC8FFF"
+                                        IsVisiblePasswordSecurityLevel="True"
+                                        PasswordLevelAction="{Binding ValidatePasswordPredicate}"/>
                 <controls:EntryOutlined Placeholder="Подтверждение пароля"
                                         Text="{Binding ConfirmUserPassword, Mode=OneWayToSource}"
                                         IsPassword="True"

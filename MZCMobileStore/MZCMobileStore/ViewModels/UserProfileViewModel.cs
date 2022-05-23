@@ -6,11 +6,11 @@ using Xamarin.Forms;
 
 namespace MZCMobileStore.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class UserProfileViewModel : BaseViewModel
     {
-        public AboutViewModel()
+        public UserProfileViewModel()
         {
-            Title = "About";
+            Title = "Профиль";
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));
         }
 
