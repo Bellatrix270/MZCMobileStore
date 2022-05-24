@@ -49,14 +49,27 @@ namespace MZCMobileStore.Models
             var content = await _restClient.GetJsonAsync<User>(response.Content).ConfigureAwait(false);
         }
 
-        public async Task RegistrationAsync(string name, string phoneNumber, string password, string login)
+        public async Task<bool> RegistrationAsync(string name, string phoneNumber, string password, string login)
         {
+            FirstName = name;
+            Login = login;
+            PhoneNumber = phoneNumber;
+
             var request = new RestRequest("register", Method.Post);
             request.AddBody(new { FirstName = name, PhoneNumber = phoneNumber, Password = password, Login = login });
             var response = await _restClient.ExecutePostAsync(request).ConfigureAwait(false);
 
-            if (response.StatusCode == HttpStatusCode.OK)
-                IsAuth = true;
+            return response.StatusCode == HttpStatusCode.OK;
+        }
+
+        public async Task<bool> RegistrationConfirmAsync(string phoneNumber, string phoneNumberCode)
+        {
+            var request = new RestRequest("register/confirm", Method.Post);
+            request.AddHeader("userPhoneNumber", phoneNumber);
+            request.AddHeader("phoneCode", phoneNumberCode);
+            var response = await _restClient.ExecutePostAsync(request).ConfigureAwait(false);
+
+            return response.StatusCode == HttpStatusCode.OK;
         }
 
         public static async Task<bool> CheckLoginToUnique(string login)

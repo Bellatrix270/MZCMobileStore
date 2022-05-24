@@ -4,24 +4,40 @@
              xmlns:vm="clr-namespace:MZCMobileStore.ViewModels;assembly=MZCMobileStore"
              xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
              xmlns:behaviors="clr-namespace:MZCMobileStore.Views.Behaviors;assembly=MZCMobileStore"
-             x:Class="MZCMobileStore.Views.ConfirmPhoneNumberPage">
+             x:Class="MZCMobileStore.Views.ConfirmPhoneNumberPage"
+             Shell.TabBarIsVisible="False">
+    <Shell.TitleView>
+        <Label Text="{Binding Title}" VerticalTextAlignment="Center"
+               FontSize="21" FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"/>
+    </Shell.TitleView>
+    <ContentPage.BindingContext>
+        <vm:ConfirmPhoneNumberViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding Title}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                   FontSize="21" FontFamily="Roboto-Medium" TextColor="{StaticResource TextColor}"/>
+        <StackLayout Padding="30,0">
+            <Label Text="{Binding TitleDescription}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                   FontSize="16" FontFamily="Roboto-Regular" TextColor="{StaticResource TextColor}" 
+                   Margin="0,15,0,0"/>
 
-            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Spacing="30">
                 <controls:EntryOutlined Placeholder="Код подтверждения"
                                         PlaceholderBackgroundColor="White"
-                                        Text="{Binding UserLogin, Mode=OneWayToSource}"
+                                        Text="{Binding PhoneNumberCode, Mode=OneWayToSource}"
                                         BorderColor="#AC8FFF"
                                         FocusedBorderColor="#EEEEFF"
                                         UnFocusedBorderColor="#AC8FFF"
                                         PlaceholderColor="Gray">
                     <controls:EntryOutlined.Behaviors>
-                        <behaviors:NumericValidationBehavior MaxCountNumbers="4" />
+                        <behaviors:NumericValidationBehavior MaxCountNumbers="6" />
                     </controls:EntryOutlined.Behaviors>
                 </controls:EntryOutlined>
+                <Button HeightRequest="50" Text="Подтвердить" CornerRadius="15"
+                        Command="{Binding ConfirmPhoneNumberCommand}"/>
+                <Label Text="отправить код повторно, через 1:00" HorizontalTextAlignment="Center" FontFamily="Roboto-Light">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

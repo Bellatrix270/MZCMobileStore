@@ -96,10 +96,15 @@ namespace MZCMobileStore.ViewModels
         private async void OnExecuteContinueRegisterCommand(object parameter)
         {
             //TODO: Check Login to Unique here.
-            bool isUnique = await User.CheckLoginToUnique(UserLogin).ConfigureAwait(false);
+            
+            bool isUnique = await User.CheckLoginToUnique(UserLogin);
 
             if (isUnique)
-                await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin);
+            {
+                if (await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin))
+                    await Shell.Current.GoToAsync(
+                        $"{nameof(ConfirmPhoneNumberPage)}?{nameof(ConfirmPhoneNumberViewModel.UserPhoneNumber)}={UserNumberPhone}");
+            }
             else
                 UserDialogs.Instance.Alert("Nick name already exist");
         }

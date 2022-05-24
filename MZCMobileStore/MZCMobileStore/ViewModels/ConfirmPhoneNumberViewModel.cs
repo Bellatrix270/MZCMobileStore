@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Acr.UserDialogs;
+using MZCMobileStore.Models;
 using MZCMobileStore.ViewModels.Base;
 using Xamarin.Forms;
 
@@ -10,6 +12,53 @@ namespace MZCMobileStore.ViewModels
     [QueryProperty(nameof(UserPhoneNumber), nameof(UserPhoneNumber))]
     public  class ConfirmPhoneNumberViewModel : BaseViewModel
     {
-        public string UserPhoneNumber { get; set; }
+        private string _phoneNumberCode;
+        private string _userPhoneNumber;
+
+        public string TitleDescription { get; set; }
+
+        public string UserPhoneNumber
+        {
+            get => _userPhoneNumber;
+            set
+            {
+                _userPhoneNumber = value;
+                TitleDescription = TitleDescription = $"на номер {value} отправлен код подтверждения";
+                OnPropertyChanged(nameof(TitleDescription));
+            }
+        }
+
+        public string PhoneNumberCode
+        {
+            get => _phoneNumberCode;
+            set
+            {
+                _phoneNumberCode = value;
+                ConfirmPhoneNumberCommand?.ChangeCanExecute();
+            }
+        }
+
+        public Command ConfirmPhoneNumberCommand { get; }
+
+        public ConfirmPhoneNumberViewModel()
+        {
+            Title = "Подтверждения телефона";
+            ConfirmPhoneNumberCommand = new Command(OnExecuteConfirmPhoneNumberCommand, CanExecuteConfirmPhoneNumberCommand);
+        }
+
+        private async void OnExecuteConfirmPhoneNumberCommand(object parameter)
+        {
+            using (var progress = UserDialogs.Instance.Progress("Загрузка..."))
+            {
+                progress.PercentComplete = +15;
+                if (await User.Instance.RegistrationConfirmAsync(UserPhoneNumber, PhoneNumberCode))
+                    User.Instance.IsAuth = true;
+            }
+        }
+
+        private bool CanExecuteConfirmPhoneNumberCommand(object parameter)
+        {
+            return PhoneNumberCode.Length == 6;
+        }
     }
 }
