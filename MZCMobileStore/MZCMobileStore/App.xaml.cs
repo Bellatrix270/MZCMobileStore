@@ -42,6 +42,7 @@ namespace MZCMobileStore
 
             builder.RegisterType<PcConfigurationsViewModel>();
             builder.RegisterType<PcConfigurationDetailViewModel>();
+            builder.RegisterType<UserCartViewModel>();
             //builder.RegisterType<PcConfigurationDetailViewModel>().AsSelf().SingleInstance();
 
             return builder.Build();

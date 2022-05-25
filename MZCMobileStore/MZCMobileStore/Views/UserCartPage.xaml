@@ -2,27 +2,125 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MZCMobileStore.ViewModels;assembly=MZCMobileStore"
+             xmlns:sk="clr-namespace:Xamarin.Forms.Skeleton;assembly=Xamarin.Forms.Skeleton"
+             xmlns:dts="clr-namespace:MZCMobileStore.Infrastructure.DataTemplateSelectors;assembly=MZCMobileStore"
+             xmlns:model="clr-namespace:MZCMobileStore.Models;assembly=MZCMobileStore"
+             xmlns:converters="clr-namespace:MZCMobileStore.Infrastructure.Converters;assembly=MZCMobileStore"
+             xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
              x:Class="MZCMobileStore.Views.UserCartPage"
+             BindingContext="{Binding UserCartViewModel, Source={StaticResource Locator}}"
              Shell.NavBarIsVisible="True"
              Shell.TabBarIsVisible="True">
-    <ContentPage.BindingContext>
-        <vm:UserCartViewModel/>
-    </ContentPage.BindingContext>
+
     <Shell.TitleView>
-        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <Label Text="{Binding Title}"
-                   FontFamily="Roboto-Bold"
-                   TextColor="#292929"
-                   FontSize="21"
-                   HorizontalTextAlignment="Start"
-                   VerticalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Label Text="{Binding Title}"
+               FontFamily="Roboto-Bold"
+               TextColor="#292929"
+               FontSize="21"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" />
     </Shell.TitleView>
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+    <ContentPage.Resources>
+        <Style x:Key="LoadingFrame" TargetType="Frame" BasedOn="{StaticResource LoadingFrameBase}">
+            <Setter Property="sk:Skeleton.IsBusy" 
+                    Value="{Binding IsBusy, Source={RelativeSource AncestorType={x:Type vm:UserCartViewModel}}}"/>
+        </Style>
+        <ResourceDictionary>
+            <converters:ByteArrayToImageSourсe x:Key="ByteArrayToImage"/>
+            <converters:PriceToCulturePrice x:Key="PriceToCulturePrice"/>
+
+            <DataTemplate x:Key="EmptyUserCartTemplate">
+                <Grid Padding="30,0">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label Text="Корзина пуста. Сначала добавьте товар"
+                               FontFamily="Roboto-Medium"
+                               TextColor="#292929"
+                               FontSize="21"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                        <BoxView Color="#EEEEFF" 
+                                 CornerRadius="1"
+                                 HeightRequest="2"
+                                 HorizontalOptions="Fill"
+                                 Margin="15,15,15,0"/>
+                    </StackLayout>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="UnRegisterUserTemplate">
+                <Grid Padding="30,0">
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+                        <Label Text="Корзина доступна только авторизированным пользователям"
+                               FontFamily="Roboto-Medium"
+                               TextColor="#292929"
+                               FontSize="21"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,0,0,5"/>
+
+                        <BoxView Color="#EEEEFF" 
+                                 CornerRadius="1"
+                                 HeightRequest="2"
+                                 HorizontalOptions="Fill"
+                                 Margin="15,0"/>
+
+                        <Button Text="Войти" 
+                                CornerRadius="15"
+                                HeightRequest="45"
+                                Command="{Binding AuthorizationCommand}"
+                                Margin="0,15,0,5"/>
+
+                        <Label Text="авторизироваться"
+                               FontFamily="Roboto-Light"
+                               TextColor="#292929"
+                               FontSize="11"
+                               HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding RegisterCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </Grid>
+                
+            </DataTemplate>
+            <dts:UserStateDataTemplateSelector x:Key="UserStateDataTemplateSelector"
+                                               EmptyUserCart="{StaticResource EmptyUserCartTemplate}"
+                                               UnRegisterUser="{StaticResource UnRegisterUserTemplate}"/>
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <RefreshView Grid.Row="0" x:DataType="vm:UserCartViewModel"
+                     RefreshColor="{StaticResource Primary}"
+                     Command="{Binding LoadCartItemsCommand}"
+                     IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                     Margin="0,20,0,0">
+            <CollectionView ItemsSource="{Binding CartItems}"
+                            SelectionMode="None"
+                            EmptyView="Not selected"
+                            EmptyViewTemplate="{StaticResource UserStateDataTemplateSelector}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="25,0,25,30">
+                            <controls:PcCardView x:DataType="model:PcConfiguration"
+                                                 ItemImage="{Binding MainImage, Converter={StaticResource ByteArrayToImage}}"
+                                                 ItemName="{Binding Name}"
+                                                 ItemDescription="{Binding CardDescription}"
+                                                 ItemPrice="{Binding Price}" 
+                                                 LoadingFrame="{StaticResource LoadingFrame}"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </RefreshView>
+
+        <StackLayout Grid.Row="1" BackgroundColor="#F3F3FF">
+
         </StackLayout>
-    </ContentPage.Content>
+
+    </Grid>
 </ContentPage>

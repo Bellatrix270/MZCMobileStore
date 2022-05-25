@@ -33,6 +33,7 @@
     </ContentPage.Resources>
 
     <RefreshView x:DataType="local:PcConfigurationsViewModel"
+                 RefreshColor="{StaticResource Primary}"
                  Command="{Binding LoadConfigurationsCommand}"
                  IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
         <CollectionView ItemsSource="{Binding PcConfigurations}" 

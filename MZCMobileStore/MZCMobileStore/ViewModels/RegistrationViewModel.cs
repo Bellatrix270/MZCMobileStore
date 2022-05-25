@@ -95,8 +95,6 @@ namespace MZCMobileStore.ViewModels
 
         private async void OnExecuteContinueRegisterCommand(object parameter)
         {
-            //TODO: Check Login to Unique here.
-            
             bool isUnique = await User.CheckLoginToUnique(UserLogin);
 
             if (isUnique)
@@ -106,7 +104,7 @@ namespace MZCMobileStore.ViewModels
                         $"{nameof(ConfirmPhoneNumberPage)}?{nameof(ConfirmPhoneNumberViewModel.UserPhoneNumber)}={UserNumberPhone}");
             }
             else
-                UserDialogs.Instance.Alert("Nick name already exist");
+                UserDialogs.Instance.Alert($"Логин {UserLogin} уже занят", "Ошибка авторизации");
         }
 
         private bool CanExecuteContinueRegisterCommand(object parameter)

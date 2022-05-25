@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:MZCMobileStore.Infrastructure.Converters;assembly=MZCMobileStore"
+             xmlns:local="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
+             x:Class="MZCMobileStore.Views.Controls.PcCardView"
+             x:Name="this">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:PriceToCulturePrice x:Key="PriceToCulturePrice"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+      <Frame HeightRequest="{Binding HeightRequest, Source={x:Reference this}}"
+             BackgroundColor="White"
+             CornerRadius="15"
+             BorderColor="#F1F1F1"
+             HasShadow="True"
+             Padding="5,20,20,20">
+          <Grid ColumnSpacing="10">
+              <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <CheckBox Grid.Column="0" Margin="0"/>
+
+              <Frame Grid.Column="1"
+                     Style="{Binding LoadingFrame, Source={x:Reference this}}"
+                     BackgroundColor="#EEEEFF" CornerRadius="11"
+                     Padding="20">
+                  <Image Source="{Binding ItemImage, Source={x:Reference this}}" />
+              </Frame>
+
+              <Grid Grid.Column="2">
+                  <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="*" />
+                      <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+
+                  <StackLayout Grid.Row="0" Orientation="Vertical" >
+                      <Frame Style="{Binding LoadingFrame, Source={x:Reference this}}"
+                             BackgroundColor="Transparent"
+                             CornerRadius="5"
+                             Padding="0"
+                             HasShadow="False"
+                             HorizontalOptions="Start">
+                          <Label Text="{Binding ItemName, Source={x:Reference this}}"
+                                 FontFamily="Roboto-Medium"
+                                 TextColor="#292929"
+                                 FontSize="16" />
+                      </Frame>
+
+                      <BoxView HeightRequest="1" HorizontalOptions="Fill" Color="#EEEEFF"
+                               Margin="0, 7" />
+                  </StackLayout>
+
+                  <Frame Grid.Row="1"
+                         Style="{Binding LoadingFrame, Source={x:Reference this}}"
+                         BackgroundColor="Transparent"
+                         CornerRadius="5"
+                         Padding="0"
+                         HorizontalOptions="Start">
+                      <Label Text="{Binding ItemDescription, Source={x:Reference this}}"
+                             FontFamily="Roboto-Regular"
+                             TextColor="#696969" FontSize="12"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill" />
+                  </Frame>
+
+                  <Frame Grid.Row="2"
+                         Style="{Binding LoadingFrame, Source={x:Reference this}}"
+                         BackgroundColor="Transparent"
+                         CornerRadius="5"
+                         Padding="0"
+                         HorizontalOptions="Fill">
+                      <Grid>
+                          <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="1*"/>
+                              <ColumnDefinition Width="1*"/>
+                          </Grid.ColumnDefinitions>
+                          <Label Grid.Column="0" Text="{Binding ItemPrice, Source={x:Reference this},Converter={StaticResource PriceToCulturePrice}, ConverterParameter=rub}"
+                                 FontFamily="Roboto-Medium"
+                                 TextColor="{StaticResource Primary}"
+                                 HorizontalOptions="Start" />
+                          <local:StepperOutlined Grid.Column="1" />
+                      </Grid>
+                  </Frame>
+                </Grid>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

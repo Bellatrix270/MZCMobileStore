@@ -21,5 +21,8 @@ namespace MZCMobileStore.ViewModels.Base
 
         public PcConfigurationDetailViewModel PcConfigurationDetailViewModel =>
             App.ContainerHost.Resolve<PcConfigurationDetailViewModel>();
+
+        public UserCartViewModel UserCartViewModel
+            => App.ContainerHost.Resolve<UserCartViewModel>();
     }
 }

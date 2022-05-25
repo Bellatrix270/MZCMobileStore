@@ -48,11 +48,13 @@ namespace MZCMobileStore.ViewModels
 
         private async void OnExecuteConfirmPhoneNumberCommand(object parameter)
         {
-            using (var progress = UserDialogs.Instance.Progress("Загрузка..."))
+            using (var progress = UserDialogs.Instance.Loading("Загрузка..."))
             {
                 progress.PercentComplete = +15;
                 if (await User.Instance.RegistrationConfirmAsync(UserPhoneNumber, PhoneNumberCode))
-                    User.Instance.IsAuth = true;
+                    await Shell.Current.GoToAsync($"{nameof(PcConfiguration)}");
+                else
+                    UserDialogs.Instance.Alert("Неверный код подтверждения", "Ошибка авторизации");
             }
         }
 

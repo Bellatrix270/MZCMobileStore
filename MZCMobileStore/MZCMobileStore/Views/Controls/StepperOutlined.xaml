@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
+             xmlns:behaviors="clr-namespace:MZCMobileStore.Views.Behaviors;assembly=MZCMobileStore"
+             x:Class="MZCMobileStore.Views.Controls.StepperOutlined"
+             x:Name="this">
+  <ContentView.Content>
+      <Frame x:Name="FrameStepper"
+             HasShadow="False"
+             BorderColor="{Binding BorderColor, Source={x:Reference this}}"
+             CornerRadius="9"
+             HorizontalOptions="{Binding HorizontalOptions, Source={x:Reference this} }"
+             VerticalOptions="{Binding VerticalOptions, Source={x:Reference this} }"
+             WidthRequest="{Binding WidthRequest, Source={x:Reference this}}"
+             HeightRequest="30"
+             Padding="0"
+             Margin="0">
+          <Grid>
+              <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Button Grid.Column="0" Text="-"
+                      TextColor="{Binding ButtonTextColor, Source={x:Reference this}}"
+                      BackgroundColor="Transparent"
+                      Clicked="ButtonMinus_OnClicked"
+                      Margin="0"
+                      Padding="0" />
+
+              <controls:BorderlessEntry Grid.Column="1" x:Name="InputEntry"
+                                        Text="{Binding Value, Source={x:Reference this}}"
+                                        TextColor="{Binding ValueTextColor, Source={x:Reference this}}"
+                                        FontSize="13"
+                                        Keyboard="Numeric"
+                                        TextChanged="InputEntry_OnTextChanged"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="EndAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="End"
+                                        Margin="0,-3" />
+
+              <Button Grid.Column="2" Text="+"
+                      TextColor="{Binding ButtonTextColor, Source={x:Reference this}}"
+                      BackgroundColor="Transparent"
+                      Clicked="ButtonPlus_OnClicked"
+                      Margin="0"
+                      Padding="0" />
+          </Grid>
+      </Frame>
+    </ContentView.Content>
+</ContentView>
