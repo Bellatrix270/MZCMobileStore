@@ -4,6 +4,7 @@ using System.Text;
 using Acr.UserDialogs;
 using MZCMobileStore.Models;
 using MZCMobileStore.ViewModels.Base;
+using MZCMobileStore.Views;
 using Xamarin.Forms;
 
 namespace MZCMobileStore.ViewModels
@@ -52,7 +53,7 @@ namespace MZCMobileStore.ViewModels
             {
                 progress.PercentComplete = +15;
                 if (await User.Instance.RegistrationConfirmAsync(UserPhoneNumber, PhoneNumberCode))
-                    await Shell.Current.GoToAsync($"{nameof(PcConfiguration)}");
+                    await Shell.Current.GoToAsync("//AboutPage");
                 else
                     UserDialogs.Instance.Alert("Неверный код подтверждения", "Ошибка авторизации");
             }

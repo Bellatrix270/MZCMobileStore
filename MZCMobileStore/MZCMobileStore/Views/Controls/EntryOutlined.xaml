@@ -25,6 +25,7 @@
                 <controls:BorderlessEntry x:Name="InputEntry"
                                           Text="{Binding Text, Source={x:Reference this}}"
                                           IsPassword="{Binding IsPassword, Source={x:Reference this}}"
+                                          Keyboard="{Binding Keyboard, Source={x:Reference this}}"
                                           FontFamily="Roboto-Light"
                                           VerticalOptions="FillAndExpand"
                                           Margin="10,0,0,0"

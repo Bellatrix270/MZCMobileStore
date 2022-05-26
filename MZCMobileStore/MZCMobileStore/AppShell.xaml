@@ -3,7 +3,8 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:MZCMobileStore.Views"
        Title="MZCMobileStore"
-       x:Class="MZCMobileStore.AppShell">
+       x:Class="MZCMobileStore.AppShell"
+       >
 
     <Shell.Resources>
         <ResourceDictionary>

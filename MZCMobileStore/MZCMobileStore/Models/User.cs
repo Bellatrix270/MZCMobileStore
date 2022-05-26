@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using MZCMobileStore.Models.DTO;
+using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Serializers.NewtonsoftJson;
+using Xamarin.Forms;
 
 namespace MZCMobileStore.Models
 {
@@ -16,11 +21,12 @@ namespace MZCMobileStore.Models
 
         public static User Instance => _instance.Value;
         private static readonly RestClient _restClient = new RestClient("http://192.168.0.107:3000/api/Users");
+        private Dictionary<int, int> _cartItems;
 
         #region Property
 
         public int Id { get; set; }
-        public bool IsAuth { get; set; }
+        public bool IsAuth { get; private set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Patronymic { get; set; }
@@ -32,6 +38,16 @@ namespace MZCMobileStore.Models
         public DateTime? BirthDate { get; set; }
         public byte[] AvatarImage { get; set; }
 
+        public Dictionary<int, int> CartItems
+        {
+            get => _cartItems;
+            set
+            {
+                _cartItems = value;
+
+            }
+        }
+
         #endregion
 
         private User()
@@ -40,13 +56,25 @@ namespace MZCMobileStore.Models
             IsAuth = false;
         }
 
-        public async Task AuthorizationAsync(string password, string login)
+        public async Task<bool> AuthorizationAsync(string password, string login)
         {
+            //TODO: Update current user
+
             RestRequest request = new RestRequest("auth");
             request.AddParameter("password", password);
             request.AddParameter("login", login);
-            RestResponse response = await _restClient.ExecuteAsync(request).ConfigureAwait(false);
-            var content = await _restClient.GetJsonAsync<User>(response.Content).ConfigureAwait(false);
+            RestResponse response = await _restClient.ExecuteAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                IsAuth = true;
+                var user = JsonConvert.DeserializeObject<UserDto>(response.Content);
+
+                UpdateUser(user);
+                await RememberUserAsync();
+            }
+            
+            return IsAuth;
         }
 
         public async Task<bool> RegistrationAsync(string name, string phoneNumber, string password, string login)
@@ -69,7 +97,20 @@ namespace MZCMobileStore.Models
             request.AddHeader("phoneCode", phoneNumberCode);
             var response = await _restClient.ExecutePostAsync(request).ConfigureAwait(false);
 
-            return response.StatusCode == HttpStatusCode.OK;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                IsAuth = true;
+                CartItems = new Dictionary<int, int>();
+
+                await RememberUserAsync();
+            }
+            
+            return IsAuth;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return true;
         }
 
         public static async Task<bool> CheckLoginToUnique(string login)
@@ -77,7 +118,30 @@ namespace MZCMobileStore.Models
             var request = new RestRequest("IsUnique");
             request.AddParameter("login", login);
             var response = await _restClient.ExecuteAsync(request).ConfigureAwait(false);
+
             return Convert.ToBoolean(response.Content);
+        }
+
+        private void UpdateUser(UserDto user)
+        {
+            Id = user.Id;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Patronymic = user.Patronymic;
+            Email = user.Email;
+            PhoneNumber = user.PhoneNumber;
+            Login = user.Login;
+            Gender = user.Gender;
+            BirthDate = user.BirthDate;
+            CartItems = user.CartItems;
+        }
+
+        private async Task RememberUserAsync()
+        {
+            string[] userData = { Password, Login };
+
+            Application.Current.Properties.Add("user", userData);
+            await Application.Current.SavePropertiesAsync();
         }
     }
 }

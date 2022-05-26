@@ -108,6 +108,17 @@ namespace MZCMobileStore.Views.Controls
         }
         #endregion
 
+        #region KeyboardProperty
+        public static readonly BindableProperty KeyboardProperty =
+            BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(EntryOutlined), Keyboard.Default);
+
+        public Keyboard Keyboard
+        {
+            get => (Keyboard)GetValue(KeyboardProperty);
+            set => SetValue(KeyboardProperty, value);
+        }
+        #endregion
+
         private async void InputEntry_OnFocused(object sender, FocusEventArgs e)
         {
             BorderColor = FocusedBorderColor;

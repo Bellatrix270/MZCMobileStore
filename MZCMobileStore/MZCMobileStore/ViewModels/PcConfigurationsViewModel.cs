@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using MZCMobileStore.Models;
 using MZCMobileStore.Services;
 using MZCMobileStore.Services.Interfaces;
@@ -19,6 +20,7 @@ namespace MZCMobileStore.ViewModels
         private readonly IPcConfigurationRepository _pcConfigurationRepository;
         private PcConfiguration _selectedItem;
         private List<PcConfiguration> _pcConfigurations;
+        private IUserDialogs _userDialogs;
         private bool _isBusy;
         private string _searchBarQuery;
 
@@ -43,7 +45,7 @@ namespace MZCMobileStore.ViewModels
         }
 
         public Command LoadConfigurationsCommand { get; }
-        public Command AddToCardCommand { get; }
+        public Command<PcConfiguration> AddToCardCommand { get; }
         public Command<string> SearchPcConfigCommand { get; }
         public Command<PcConfiguration> ConfigurationTapped { get; }
 
@@ -51,11 +53,13 @@ namespace MZCMobileStore.ViewModels
         {
             Title = "Конфигурации ПК";
 
+            _userDialogs = UserDialogs.Instance;
+
             _pcConfigurationRepository = pcConfigurationRepository;
             _pcConfigurations = new List<PcConfiguration>();
 
             LoadConfigurationsCommand = new Command(async () => await ExecuteLoadConfigurationsCommand());
-            AddToCardCommand = new Command(async () => await Shell.Current.GoToAsync($"//RegistrationPage"));
+            AddToCardCommand = new Command<PcConfiguration>(async (config) =>  await OnExecuteAddToCartCommand(config));
             SearchPcConfigCommand = new Command<string>(OnExecuteSearchPcConfigCommand, p => !IsBusy);
             ConfigurationTapped = new Command<PcConfiguration>(OnConfigurationSelected, (sender) => !IsBusy);
         }
@@ -103,7 +107,7 @@ namespace MZCMobileStore.ViewModels
             }
         }
 
-        async void OnConfigurationSelected(PcConfiguration config)
+        private async void OnConfigurationSelected(PcConfiguration config)
         {
             if (config == null)
                 return;
@@ -116,6 +120,23 @@ namespace MZCMobileStore.ViewModels
         {
             _searchBarQuery = parameter;
             OnPropertyChanged(nameof(PcConfigurations));
+        }
+
+        private async Task OnExecuteAddToCartCommand(PcConfiguration config)
+        {
+            if (User.Instance.IsAuth)
+            {
+                User.Instance.CartItems.Add(config.Id, 1);
+                _userDialogs.Toast($"Конфигураця {config.Name} добавлена в корзину");
+            }
+            else
+            {
+                bool resultDialog = await _userDialogs.ConfirmAsync("Необходимо зарегистрироваться", 
+                    "Добавление конфигурации в корзину", "Зарегистрироваться", "Отмена");
+
+                if (resultDialog)
+                    await Shell.Current.GoToAsync("//RegistrationPage");
+            }
         }
     }
 }

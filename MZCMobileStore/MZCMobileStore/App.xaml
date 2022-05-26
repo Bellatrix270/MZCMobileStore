@@ -7,8 +7,8 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#AC8FFF</Color>
-            <Color x:Key="Disabled">#EEEEFF</Color>
+            <Color x:Key="PrimaryColor">#AC8FFF</Color>
+            <Color x:Key="DisabledControlColor">#EEEEFF</Color>
             <Color x:Key="TextColor">#292929</Color>
             <Color x:Key="LoadingColor">#F0F0F0</Color>
 
@@ -23,17 +23,19 @@
             
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="FontFamily"  Value="Roboto-Medium"/>
+                <Setter Property="CornerRadius" Value="15"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Disabled}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource DisabledControlColor}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

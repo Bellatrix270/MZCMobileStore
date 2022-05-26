@@ -83,8 +83,9 @@
                           </Grid.ColumnDefinitions>
                           <Label Grid.Column="0" Text="{Binding ItemPrice, Source={x:Reference this},Converter={StaticResource PriceToCulturePrice}, ConverterParameter=rub}"
                                  FontFamily="Roboto-Medium"
-                                 TextColor="{StaticResource Primary}"
-                                 HorizontalOptions="Start" />
+                                 TextColor="{StaticResource PrimaryColor}"
+                                 HorizontalOptions="Start" 
+                                 VerticalTextAlignment="Center"/>
                           <local:StepperOutlined Grid.Column="1" />
                       </Grid>
                   </Frame>

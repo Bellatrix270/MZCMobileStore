@@ -85,7 +85,6 @@
             <dts:UserStateDataTemplateSelector x:Key="UserStateDataTemplateSelector"
                                                EmptyUserCart="{StaticResource EmptyUserCartTemplate}"
                                                UnRegisterUser="{StaticResource UnRegisterUserTemplate}"/>
-            
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid>
@@ -94,11 +93,11 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <RefreshView Grid.Row="0" x:DataType="vm:UserCartViewModel"
-                     RefreshColor="{StaticResource Primary}"
-                     Command="{Binding LoadCartItemsCommand}"
+                     RefreshColor="{StaticResource PrimaryColor}"
+                     Command="{Binding LoadingCartItemsCommand}"
                      IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
                      Margin="0,20,0,0">
-            <CollectionView ItemsSource="{Binding CartItems}"
+            <CollectionView ItemsSource="{Binding UserCartItems}"
                             SelectionMode="None"
                             EmptyView="Not selected"
                             EmptyViewTemplate="{StaticResource UserStateDataTemplateSelector}">
@@ -114,13 +113,16 @@
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-
             </CollectionView>
         </RefreshView>
 
-        <StackLayout Grid.Row="1" BackgroundColor="#F3F3FF">
-
-        </StackLayout>
+        <Grid Grid.Row="1" BackgroundColor="#F3F3FF" Padding="15,5">
+            <StackLayout HorizontalOptions="Start" Spacing="0">
+                <Label Text="Итого" TextColor="{StaticResource TextColor}" FontFamily="Roboto-Regular" FontSize="15"/>
+                <Label Text="выберите товар" TextColor="{StaticResource PrimaryColor}" FontFamily="Roboto-Medium" FontSize="16"/>
+            </StackLayout>
+            <Button Text="Оформить заказ" HeightRequest="20" WidthRequest="200" HorizontalOptions="EndAndExpand"/>
+        </Grid>
 
     </Grid>
 </ContentPage>

@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
              xmlns:vm="clr-namespace:MZCMobileStore.ViewModels"
-             xmlns:behaviors="clr-namespace:MZCMobileStore.Views.Behaviors;assembly=MZCMobileStore"
              mc:Ignorable="d"
              x:Class="MZCMobileStore.Views.LoginPage"
              Shell.NavBarIsVisible="False"

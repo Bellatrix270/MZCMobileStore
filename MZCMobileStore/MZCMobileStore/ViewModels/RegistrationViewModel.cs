@@ -79,11 +79,16 @@ namespace MZCMobileStore.ViewModels
             Title = "Регистрация";
 
             ContinueWithoutRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//AboutPage"));
-            GoToLoginPageCommand = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(LoginPage)}"));
+            GoToLoginPageCommand = new Command(Execute);
 
             ContinueRegisterCommand = new Command(OnExecuteContinueRegisterCommand, CanExecuteContinueRegisterCommand);
 
             ValidatePasswordPredicate = PasswordValidate;
+        }
+
+        private async void Execute()
+        {
+            await Shell.Current.GoToAsync("LoginPage");
         }
 
         protected override bool Set<T>(ref T field, T value, string propertyName = null)
@@ -104,7 +109,7 @@ namespace MZCMobileStore.ViewModels
                         $"{nameof(ConfirmPhoneNumberPage)}?{nameof(ConfirmPhoneNumberViewModel.UserPhoneNumber)}={UserNumberPhone}");
             }
             else
-                UserDialogs.Instance.Alert($"Логин {UserLogin} уже занят", "Ошибка авторизации");
+                UserDialogs.Instance.Alert($"Логин {UserLogin} уже занят", "Авторизация");
         }
 
         private bool CanExecuteContinueRegisterCommand(object parameter)

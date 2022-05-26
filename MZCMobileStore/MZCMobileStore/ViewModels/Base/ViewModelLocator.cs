@@ -23,6 +23,14 @@ namespace MZCMobileStore.ViewModels.Base
             App.ContainerHost.Resolve<PcConfigurationDetailViewModel>();
 
         public UserCartViewModel UserCartViewModel
-            => App.ContainerHost.Resolve<UserCartViewModel>();
+        {
+            get
+            {
+                UserCartViewModel viewModel = App.ContainerHost.Resolve<UserCartViewModel>();
+                viewModel.OnAppearing();
+
+                return viewModel;
+            }
+        }
     }
 }
