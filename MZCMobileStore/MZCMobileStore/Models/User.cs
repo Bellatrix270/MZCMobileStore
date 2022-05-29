@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MZCMobileStore.Models.DTO;
+using MZCMobileStore.Models.Interfaces;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
@@ -15,7 +16,7 @@ namespace MZCMobileStore.Models
     /// <summary>
     /// Singleton user class
     /// </summary>
-    public class User
+    public class User : IEntity
     {
         private static readonly Lazy<User> _instance = new Lazy<User>(() => new User());
 
@@ -70,14 +71,14 @@ namespace MZCMobileStore.Models
                 IsAuth = true;
                 var user = JsonConvert.DeserializeObject<UserDto>(response.Content);
 
-                UpdateUser(user);
+                UserFromDto(user);
                 await RememberUserAsync();
             }
             
             return IsAuth;
         }
 
-        public async Task<bool> RegistrationAsync(string name, string phoneNumber, string password, string login)
+        public async Task<(bool, string)> RegistrationAsync(string name, string phoneNumber, string password, string login)
         {
             FirstName = name;
             Login = login;
@@ -87,7 +88,7 @@ namespace MZCMobileStore.Models
             request.AddBody(new { FirstName = name, PhoneNumber = phoneNumber, Password = password, Login = login });
             var response = await _restClient.ExecutePostAsync(request).ConfigureAwait(false);
 
-            return response.StatusCode == HttpStatusCode.OK;
+            return (response.StatusCode == HttpStatusCode.OK, response.Content?.Trim('"'));
         }
 
         public async Task<bool> RegistrationConfirmAsync(string phoneNumber, string phoneNumberCode)
@@ -110,19 +111,17 @@ namespace MZCMobileStore.Models
 
         public async Task<bool> SaveChangesAsync()
         {
+            if (!IsAuth)
+                return false;
+
+            var request = new RestRequest(string.Empty, Method.Put);
+            request.AddBody(UserToDto());
+            var response = await _restClient.ExecuteAsync(request).ConfigureAwait(false);
+
             return true;
         }
 
-        public static async Task<bool> CheckLoginToUnique(string login)
-        {
-            var request = new RestRequest("IsUnique");
-            request.AddParameter("login", login);
-            var response = await _restClient.ExecuteAsync(request).ConfigureAwait(false);
-
-            return Convert.ToBoolean(response.Content);
-        }
-
-        private void UpdateUser(UserDto user)
+        private void UserFromDto(UserDto user)
         {
             Id = user.Id;
             FirstName = user.FirstName;
@@ -134,6 +133,25 @@ namespace MZCMobileStore.Models
             Gender = user.Gender;
             BirthDate = user.BirthDate;
             CartItems = user.CartItems;
+        }
+
+        private UserDto UserToDto()
+        {
+            UserDto userDto = new UserDto()
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                Patronymic = Patronymic,
+                Email = Email,
+                PhoneNumber = PhoneNumber,
+                Login = Login,
+                Gender = Gender,
+                BirthDate = BirthDate,
+                CartItems = CartItems,
+            };
+
+            return userDto;
         }
 
         private async Task RememberUserAsync()

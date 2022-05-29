@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using MZCMobileStore.Models;
 using MZCMobileStore.Services;
 using MZCMobileStore.Services.Interfaces;
 using MZCMobileStore.ViewModels;
@@ -26,8 +27,9 @@ namespace MZCMobileStore
 
         }
 
-        protected override void OnSleep()
+        protected override async void OnSleep()
         {
+            await User.Instance.SaveChangesAsync();
         }
 
         protected override void OnResume()

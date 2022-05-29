@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using MZCMobileStore.Models.Interfaces;
 
 namespace MZCMobileStore.Models
 {
-    public class PcConfiguration
+    public class PcConfiguration : IStoreItem, IEntity
     { 
         public int Id { get; set; }
         public string Name { get; set; }

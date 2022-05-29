@@ -16,24 +16,29 @@
              CornerRadius="15"
              BorderColor="#F1F1F1"
              HasShadow="True"
-             Padding="5,20,20,20">
+             Padding="5,0,20,20">
           <Grid ColumnSpacing="10">
+              <Grid.RowDefinitions>
+                  <RowDefinition Height="20"/>
+                  <RowDefinition Height="auto"/>
+              </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="auto" />
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
 
-              <CheckBox Grid.Column="0" Margin="0"/>
+              <Switch Grid.Row="1" Grid.Column="0" Margin="0"/>
 
-              <Frame Grid.Column="1"
+              <Frame Grid.Row="1" Grid.Column="1"
                      Style="{Binding LoadingFrame, Source={x:Reference this}}"
                      BackgroundColor="#EEEEFF" CornerRadius="11"
                      Padding="20">
-                  <Image Source="{Binding ItemImage, Source={x:Reference this}}" />
+                  <!--TODO: ItemDescription need more space for description Epix Plus. At the momemt i have increased size of the image, Added a WidthRequest and a HeightRequest -->
+                  <Image Source="{Binding ItemImage, Source={x:Reference this}}" WidthRequest="100" HeightRequest="130" />
               </Frame>
 
-              <Grid Grid.Column="2">
+              <Grid Grid.Row="1" Grid.Column="2" >
                   <Grid.RowDefinitions>
                       <RowDefinition Height="Auto" />
                       <RowDefinition Height="*" />
@@ -63,6 +68,7 @@
                          CornerRadius="5"
                          Padding="0"
                          HorizontalOptions="Start">
+                      <!--TODO: ItemDescription need more space for description Epix Plus -->
                       <Label Text="{Binding ItemDescription, Source={x:Reference this}}"
                              FontFamily="Roboto-Regular"
                              TextColor="#696969" FontSize="12"
@@ -86,8 +92,11 @@
                                  TextColor="{StaticResource PrimaryColor}"
                                  HorizontalOptions="Start" 
                                  VerticalTextAlignment="Center"/>
-                          <local:StepperOutlined Grid.Column="1" />
-                      </Grid>
+                            <local:StepperOutlined Grid.Column="1" 
+                                                 Value="{Binding ItemCount, Source={x:Reference this}, Mode=TwoWay}"
+                                                 ValueChangeCommand="{Binding ItemCountChangedCommand, Source={x:Reference this}}"
+                                                 ValueChangeCommandParameter="{Binding ItemCountChangedCommandParameter, Source={x:Reference this}}"/>
+                        </Grid>
                   </Frame>
                 </Grid>
             </Grid>

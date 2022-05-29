@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MZCMobileStore.ViewModels;assembly=MZCMobileStore"
@@ -6,6 +6,7 @@
              xmlns:dts="clr-namespace:MZCMobileStore.Infrastructure.DataTemplateSelectors;assembly=MZCMobileStore"
              xmlns:model="clr-namespace:MZCMobileStore.Models;assembly=MZCMobileStore"
              xmlns:converters="clr-namespace:MZCMobileStore.Infrastructure.Converters;assembly=MZCMobileStore"
+             xmlns:exmodel="clr-namespace:MZCMobileStore.Models.ExtensionGenerics;assembly=MZCMobileStore"
              xmlns:controls="clr-namespace:MZCMobileStore.Views.Controls;assembly=MZCMobileStore"
              x:Class="MZCMobileStore.Views.UserCartPage"
              BindingContext="{Binding UserCartViewModel, Source={StaticResource Locator}}"
@@ -26,6 +27,7 @@
             <Setter Property="sk:Skeleton.IsBusy" 
                     Value="{Binding IsBusy, Source={RelativeSource AncestorType={x:Type vm:UserCartViewModel}}}"/>
         </Style>
+
         <ResourceDictionary>
             <converters:ByteArrayToImageSourсe x:Key="ByteArrayToImage"/>
             <converters:PriceToCulturePrice x:Key="PriceToCulturePrice"/>
@@ -104,11 +106,14 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout Padding="25,0,25,30">
-                            <controls:PcCardView x:DataType="model:PcConfiguration"
-                                                 ItemImage="{Binding MainImage, Converter={StaticResource ByteArrayToImage}}"
-                                                 ItemName="{Binding Name}"
-                                                 ItemDescription="{Binding CardDescription}"
-                                                 ItemPrice="{Binding Price}" 
+                            <controls:PcCardView x:DataType="exmodel:PcConfigCartItem"
+                                                 ItemImage="{Binding  Item.MainImage, Converter={StaticResource ByteArrayToImage}}"
+                                                 ItemName="{Binding  Item.Name}"
+                                                 ItemDescription="{Binding  Item.CardDescription}"
+                                                 ItemCount="{Binding Count, Mode=TwoWay}"
+                                                 ItemPrice="{Binding  TotalPrice, Mode=TwoWay}" 
+                                                 ItemCountChangedCommand="{Binding ItemCountChangedCommand, Source={RelativeSource AncestorType={x:Type vm:UserCartViewModel}}}"
+                                                 ItemCountChangedCommandParameter="{Binding Item}"
                                                  LoadingFrame="{StaticResource LoadingFrame}"/>
                         </StackLayout>
                     </DataTemplate>
@@ -116,7 +121,7 @@
             </CollectionView>
         </RefreshView>
 
-        <Grid Grid.Row="1" BackgroundColor="#F3F3FF" Padding="15,5">
+        <Grid Grid.Row="1" IsVisible="False" BackgroundColor="#F3F3FF" Padding="15,5">
             <StackLayout HorizontalOptions="Start" Spacing="0">
                 <Label Text="Итого" TextColor="{StaticResource TextColor}" FontFamily="Roboto-Regular" FontSize="15"/>
                 <Label Text="выберите товар" TextColor="{StaticResource PrimaryColor}" FontFamily="Roboto-Medium" FontSize="16"/>

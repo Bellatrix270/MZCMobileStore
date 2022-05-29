@@ -71,10 +71,13 @@ namespace MZCMobileStore.ViewModels
             try
             {
                 _pcConfigurations.Clear();
+
                 _pcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
                 _pcConfigurations.Add(new PcConfiguration() { Name = "MockNamePc", ShortDescription = "Mock short descriprtion about this pc configuration" });
+
                 var items = await _pcConfigurationRepository.GeAllAsync();
                 _pcConfigurations.Clear();
+
                 foreach (var item in items)
                 {
                     _pcConfigurations.Add(item);
@@ -83,6 +86,7 @@ namespace MZCMobileStore.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                _userDialogs.Toast("Ошибка загрузки, повторите позже");
             }
             finally
             {
@@ -126,8 +130,17 @@ namespace MZCMobileStore.ViewModels
         {
             if (User.Instance.IsAuth)
             {
-                User.Instance.CartItems.Add(config.Id, 1);
-                _userDialogs.Toast($"Конфигураця {config.Name} добавлена в корзину");
+                int currentCount = 0;
+
+                if (User.Instance.CartItems.ContainsKey(config.Id))
+                {
+                    currentCount = User.Instance.CartItems[config.Id];
+                    User.Instance.CartItems.Remove(config.Id);
+                }
+
+                User.Instance.CartItems.Add(config.Id, ++currentCount);
+
+                _userDialogs.Toast($"Конфигураця {config.Name} добавлена в корзину X{currentCount}", TimeSpan.FromSeconds(0.5));
             }
             else
             {

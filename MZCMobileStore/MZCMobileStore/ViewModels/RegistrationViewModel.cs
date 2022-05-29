@@ -20,6 +20,7 @@ namespace MZCMobileStore.ViewModels
         private string _userNumberPhone;
         private string _userPassword;
         private string _confirmUserPassword;
+        private readonly IUserDialogs _userDialogs;
 
         #endregion
 
@@ -78,6 +79,8 @@ namespace MZCMobileStore.ViewModels
         {
             Title = "Регистрация";
 
+            _userDialogs = UserDialogs.Instance;
+
             ContinueWithoutRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//AboutPage"));
             GoToLoginPageCommand = new Command(Execute);
 
@@ -95,21 +98,20 @@ namespace MZCMobileStore.ViewModels
         {
             bool isChange =  base.Set(ref field, value, propertyName);
             ContinueRegisterCommand?.ChangeCanExecute();
+
             return isChange;
         }
 
         private async void OnExecuteContinueRegisterCommand(object parameter)
         {
-            bool isUnique = await User.CheckLoginToUnique(UserLogin);
+            var (isValidDataToRegistration, errorMessage) =
+                await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin);
 
-            if (isUnique)
-            {
-                if (await User.Instance.RegistrationAsync(UserName, UserNumberPhone, UserPassword, UserLogin))
-                    await Shell.Current.GoToAsync(
-                        $"{nameof(ConfirmPhoneNumberPage)}?{nameof(ConfirmPhoneNumberViewModel.UserPhoneNumber)}={UserNumberPhone}");
-            }
+            if (isValidDataToRegistration)
+                await Shell.Current.GoToAsync(
+                    $"{nameof(ConfirmPhoneNumberPage)}?{nameof(ConfirmPhoneNumberViewModel.UserPhoneNumber)}={UserNumberPhone}");
             else
-                UserDialogs.Instance.Alert($"Логин {UserLogin} уже занят", "Авторизация");
+                _userDialogs.Alert(errorMessage);
         }
 
         private bool CanExecuteContinueRegisterCommand(object parameter)

@@ -16,5 +16,11 @@ namespace MZCMobileStore.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            //TODO: Auto update list in viewModel
+        }
     }
 }

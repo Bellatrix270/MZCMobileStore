@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -94,6 +94,44 @@ namespace MZCMobileStore.Views.Controls
         }
         #endregion
 
+        #region ValueChangeCommandProperty
+        public static readonly BindableProperty ValueChangeCommandProperty
+            = BindableProperty.Create(nameof(ValueChangeCommand), typeof(ICommand), typeof(StepperOutlined), default);
+
+        public ICommand ValueChangeCommand
+        {
+            get => (ICommand)GetValue(ValueChangeCommandProperty);
+            set => SetValue(ValueChangeCommandProperty, value);
+        }
+
+        public void ExecuteValueChangeCommand(ICommand command)
+        {
+            if (command == null)
+                return;
+
+            object[] commandParameters = new[] { ValueChangeCommandParameter, Value };
+
+            if (command?.CanExecute(commandParameters) == false)
+                return;
+
+            command?.Execute(commandParameters);
+        }
+
+        public Command OnExecuteValueChangeCommand =>
+            new Command(() => ExecuteValueChangeCommand(ValueChangeCommand));
+        #endregion
+
+        #region ValueChangeCommandParameterProperty //Cart item
+        public static readonly BindableProperty ValueChangeCommandParameterProperty
+            = BindableProperty.Create(nameof(ValueChangeCommandParameter), typeof(object), typeof(StepperOutlined), default);
+
+        public object ValueChangeCommandParameter
+        {
+            get => (object)GetValue(ValueChangeCommandParameterProperty);
+            set => SetValue(ValueChangeCommandParameterProperty, value);
+        }
+        #endregion
+
         private void ButtonMinus_OnClicked(object sender, EventArgs e)
         {
             Value -= Increment;
@@ -111,6 +149,7 @@ namespace MZCMobileStore.Views.Controls
         private void InputEntry_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             //TODO: Check input text
+            ExecuteValueChangeCommand(ValueChangeCommand);
         }
     }
 }

@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
+using MZCMobileStore.Models;
+using MZCMobileStore.Models.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MZCMobileStore.Views.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PcCardView : ContentView
+    public partial class PcCardView : ContentView 
     {
         public PcCardView()
         {
@@ -58,6 +60,39 @@ namespace MZCMobileStore.Views.Controls
         {
             get => (double)GetValue(ItemPriceProperty);
             set => SetValue(ItemPriceProperty, value);
+        }
+        #endregion
+
+        #region ItemCountProperty
+        public static readonly BindableProperty ItemCountProperty =
+            BindableProperty.Create(nameof(ItemCount), typeof(int), typeof(PcCardView), 1);
+
+        public int ItemCount
+        {
+            get => (int)GetValue(ItemCountProperty);
+            set => SetValue(ItemCountProperty, value);
+        }
+        #endregion
+
+        #region ItemCountChangedCommandProperty
+        public static readonly BindableProperty ItemCountChangedCommandProperty =
+            BindableProperty.Create(nameof(ItemCountChangedCommand), typeof(ICommand), typeof(PcCardView), default);
+
+        public ICommand ItemCountChangedCommand
+        {
+            get => (ICommand)GetValue(ItemCountChangedCommandProperty);
+            set => SetValue(ItemCountChangedCommandProperty, value);
+        }
+        #endregion
+
+        #region ItemCountChangedCommandParameterProperty
+        public static readonly BindableProperty ItemCountChangedCommandParameterProperty =
+            BindableProperty.Create(nameof(ItemCountChangedCommandParameter), typeof(object), typeof(PcCardView), default);
+
+        public object ItemCountChangedCommandParameter
+        {
+            get => (object)GetValue(ItemCountChangedCommandParameterProperty);
+            set => SetValue(ItemCountChangedCommandParameterProperty, value);
         }
         #endregion
 
